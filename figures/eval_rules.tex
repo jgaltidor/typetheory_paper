@@ -1,0 +1,29 @@
+\begin{figure}[htb]
+\[
+\cinfer[D.1]{+($e_1$; $e_2$) $\stepto$ +($e'_1$; $e_2$)}{e_1 \stepto e'_1}
+\qquad
+\cinfer[D.2]{+(num[$n_1$]; $e_2$) $\stepto$ +(num[$n_1$]; $e'_2$)}{e_2 \stepto e'_2}
+\]
+
+\[
+\cinfer[D.3]{+(num[$n_1$]; num[$n_2$]) $\stepto$ num[$n_1 + n_2$]}{ }
+\]
+
+\[
+\cinfer[D.4]{\^{}($e_1$; $e_2$) $\stepto$ \^{}($e'_1$; $e_2$)}{e_1 \stepto e'_1}
+\qquad
+\cinfer[D.5]{\^{}(str[$s_1$]; $e_2$) $\stepto$ \^{}(str[$s_1$]; $e'_2$)}{e_2 \stepto e'_2}
+\]
+
+\[
+\cinfer[D.6]{\^{}(str[$s_1$]; str[$s_2$]) $\stepto$ str[$s_1 \texttt{\^{}} s_2$]}{ }
+\]
+
+\[
+\cinfer[D.7]{let($x$; $e_1$; $e_2$) $\stepto$ let($x$; $e'_1$; $e_2$)}{e_1 \stepto e'_1}
+\qquad
+\cinfer[D.8]{let($x$; $e_1$; $e_2$) $\stepto$ $[e_1 / x]e_2$}{e_1 \; \texttt{value}}
+\]
+\caption{Dynamic Semantics of $\minilang$}
+\label{fig:eval_rules} 
+\end{figure}

@@ -1,0 +1,15 @@
+\begin{figure}[htb]
+\[
+\cinfer[T.6]{$\vdash$ let(hours; num[24]; +(hours; num[3]): num}
+  {\cinfer[T.1]{$\vdash$ num[24]: num}{ }
+   &
+   \cinfer[T.4]{hours : num $\vdash$ +(hours; num[3]): num}
+     {\cinfer[T.3]{hours : num $\vdash$ hours: num}{ }
+      &
+      \cinfer[T.1]{hours : num $\vdash$ num[3]: num}{ }
+     }
+  }
+\]
+\caption{Example Typing Derivation}
+\label{fig:type_derive} 
+\end{figure}

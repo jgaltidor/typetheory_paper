@@ -1,0 +1,32 @@
+\documentclass[notitlepage,11pt]{article}
+
+% Make margins 1 inch
+\usepackage[margin=1.0in]{geometry}
+
+% Input my macros
+\input{my_macros.tex}
+
+\usepackage{math-cmds}
+\input{syn-defns07.tex}
+
+% Use one and a half spacing
+\usepackage{setspace}
+\onehalfspacing
+
+\title{Type Theoretic Foundations of Programming Languages}
+\author{John Altidor}
+\date{}
+
+\begin{document}
+\maketitle
+\input{intro.tex}
+\input{minilang_grammar.tex}
+\input{static.tex}
+\input{dynamic.tex}
+\input{preservation.tex}
+\input{progress.tex}
+\input{twelf.tex}
+\input{summary.tex}
+\bibliographystyle{plain}
+\bibliography{refs}
+\end{document}

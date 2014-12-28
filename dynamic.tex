@@ -1,0 +1,37 @@
+\section{Dynamic Semantics}
+\label{sec:dynamic}
+The dynamic semantics of $\minilang$ define a transition
+system for evaluating $\minilang$ expressions.
+In order to know when we are done evaluating an expression
+to a \emph{value}, we need to define values.
+Values in $\minilang$ are either a single number or a
+single string.
+\[
+\cinfer{num[$n$] value}{ }
+\qquad
+\cinfer{str[$s$] value}{ }
+\]
+
+
+The inductive definition of the transition relation for
+evaluation expressions is shown in Figure~\ref{fig:eval_rules}.
+Rules \code{D.1-3} define how to evaluate additions.
+Rule \code{D.3} says that the addition of two single
+numbers \emph{steps to} (evaluation step) a number that is the
+sum of those two numbers.
+Rule \code{D.1} says if an evaluation step can be performed
+on the left summand, then the addition expression steps to
+an expression that is the same except with the step performed
+on the left summand.
+Once we are done evaluating the left subexpression to a number,
+rule \code{D.2} allows us to evaluate the right subexpression.
+Rules \code{D.4-6} are analogous to rules \code{D.1-3}
+for string concatenation.
+Rule \code{D.7} says we evaluate the expression ($e_1$) that
+will be bound to variable of the \code{let} expression.
+Once $e_1$ becomes a value, then rule \code{D.8} says to
+we can evaluate the body ($e_2$) of the \code{let} expression
+by replacing the variable with that value.
+
+\input{figures/eval_rules.tex}
+

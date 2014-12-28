@@ -1,0 +1,91 @@
+\section{Introduction}
+Type theory is a logical formalism used extensively
+in the study and design of programming languages to define the
+semantics and behavior of deductive systems.
+According to~\cite{harpercourse},
+``The central organizing principle of language design is the
+identification of language features with types.
+The theory of programming languages, therefore, reduces to the
+theory of types.''
+Type theory ranges over several formal systems,
+but for this paper, type theory refers to
+the design, analysis and study of \emph{type systems}.
+Due to the wide variety of usage of the phrase
+``type system'', it lacks a standard definition,
+but according to a well-known text~\cite{Pierce:2002:TPL:509043}:
+``A type system is a tractable syntatic method for proving
+the absence of certain program behaviors by classifying phrases
+according to the kinds of values they compute.''
+A type system formally defines many aspects of programming language
+such as in the following far-from-exhaustive list:
+\begin{enumerate}
+\item Which expressions are allowed in the language;
+specifically, what a well-formed or well-\emph{typed} program in the
+language is.
+Vaguely in plain english, well-typed programs are programs
+that entail certain properties.
+\item How program abstractions and components of
+large systems can be tied together.
+\item How expressions in the language are evaluated.
+What is the order of evaluation.
+Are expressions evaluated eagerly
+(every expression in program is computed immediately)
+or lazily
+(expressions are not evaluated until the program
+requires their values).
+\end{enumerate}
+Type systems model complex language features
+and enable one to prove properties about languages.
+Type systems are rigorous enough to be
+used as a language specification for a compiler
+writer to implement the language;
+the implementation of a programming language
+can follow from its type system.
+
+A type system is specified by a set of inference rules
+that define a programming language.
+These inference rules are partitioned into two categories.
+Rules defining the types of the \emph{terms} or expressions in
+the language are the \emph{static semantics}.
+Static semantics \emph{inductively} define
+a relation between expressions and types.
+\emph{Operational semantics} or dynamic semantics inductively
+define how to evaluate expressions in the language.
+Specifically, it defines
+a transition system between expressions, where
+the \emph{values} that expressions evaluate to are
+the \emph{final states} of the system.
+
+Type systems are best explained with an example.
+The following sections define a programming language
+we coin as $\minilang$.
+The \emph{grammar} of $\minilang$ is defined in
+Section~\ref{sec:grammar}.
+Its static and dynamic semantics are
+given in Sections~\ref{sec:static}
+and~\ref{sec:dynamic}, respectively.
+We prove an important property, \emph{type preservation},
+for $\minilang$ in Section~\ref{sec:preservation}.
+We show to prove another important property,
+\emph{progress}, by proving it
+for one type of expression in $\minilang$
+in~\ref{sec:progress}.
+The proof of progress for all other expressions
+is similar, so we skip those cases for brevity.
+
+Proofs of language properties are important
+but long, tedious, and error prone
+because there are so many cases.
+As a result,
+\emph{proof assistants} and \emph{automated theorem provers}
+have been developed for proving language theory.
+These software tools provide a language
+for writing proofs.
+These tools can find mistakes in proofs
+and let one know if their proof is correct.
+We cover one such tool Twelf~\cite{Twelf} briefly
+in Section~\ref{sec:twelf}.
+All of the Twelf code mentioned in this paper can
+be found in~\cite{minilang-twelf}
+(the \texttt{*.elf} files in the zip archive).
+Section~\ref{sec:summary} concludes with a summary.

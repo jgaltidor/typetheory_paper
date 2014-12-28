@@ -1,0 +1,88 @@
+\usepackage{hyperref} % Add links in the pdf
+\usepackage{graphicx}
+\DeclareGraphicsExtensions{.eps,.png,.jpg,.gif}
+
+\usepackage{amsmath}
+% \usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{amsfonts}
+
+\usepackage{cancel}
+
+\usepackage{algorithm}
+\usepackage{algorithmic}
+
+\usepackage{proof}
+\usepackage{mathpartir}
+
+\usepackage[usenames]{color}
+% \usepackage{ulem} % will redefine \emph
+\usepackage{multicol}
+
+% \usepackage{xyling} % Parse trees
+
+% Redefine some algorithmic commands
+\renewcommand{\algorithmicrequire}{\textbf{Input:}}
+\renewcommand{\algorithmicensure}{\textbf{Output:}}
+\renewcommand{\algorithmiccomment}[1]{// #1}
+
+\newcommand{\func}[3]{#1 : #2 \rightarrow #3}
+\newcommand{\pfunc}[3]{#1 : #2 \dashrightarrow #3}
+\newcommand{\funct}[4]{#1 : #2 \xrightarrow{#4} #3}
+\newcommand{\functb}[5]{#1 : #2 \xrightarrow[#5]{#4} #3}
+
+\newcommand{\funcinj}[3]{\funct{#1}{#2}{#3}{1-1}}
+\newcommand{\funcsur}[3]{\funct{#1}{#2}{#3}{onto}}
+\newcommand{\funcbi}[3]{\functb{#1}{#2}{#3}{1-1}{onto}}
+
+% \newcommand{\set}[2]{\{ #1 \; | \; #2 \}}
+
+\newcommand{\linespace}{\vspace{\baselineskip}}
+\newcommand{\minuslinespace}{\vspace{-\baselineskip}}
+% Stop indenting of paragraphs
+\newcommand{\stopParagraphIdent}{\setlength{\parindent}{0pt}}
+
+\newcommand{\nats}{\mathbb{N}}
+\newcommand{\reals}{\mathbb{R}}
+\newcommand{\rationals}{\mathbb{Q}}
+\newcommand{\cardnats}{|\mathbb{N}|}
+\newcommand{\cardreals}{|\mathbb{R}|}
+\newcommand{\strings}{\Sigma^*}
+\newcommand{\bstrings}{\{0,1\}^*}
+
+\newcommand{\stack}[1]
+{
+\begin{tabular}{|c|}
+#1
+\hline
+\end{tabular}
+}
+
+\newcommand{\code}[1]{\texttt{#1}}
+% \newcommand{\sv}[1]{\texttt{#1}}
+
+\let\OldInfer\infer
+\renewcommand{\infer}[3][]{\OldInfer[\code{#1}]{#2}{#3}}
+
+\newcommand{\myinfer}[3]{\infer[#1]{\code{#3}}{\code{#2}}}
+\newcommand{\judge}[2]{\code{#1 \; #2}}
+
+\newtheorem{thm}{Theorem}
+\newtheorem{lem}{Lemma}
+\newcommand{\caseitem}[1]{\item[\textit{Case:}] Rule #1 \\}
+\newcommand{\trans}[2]{#1 \rightarrow #2}
+\newcommand{\transs}[2]{#1 \rightarrow^* #2}
+\newcommand{\cinfer}[3][]{\infer[#1]{\code{#2}}{#3}}
+\newcommand{\spcinfer}[3][]{\hspace{-2cm}\infer[#1]{\vspace{\baselineskip}#2}{#3}\hspace{-2cm}}
+%\newcommand{\spcinfer}[3][]{\infer*{\vspace{\baselineskip}}{\hspace{-2cm}\infer[#1]{#2}{#3}}\hspace{-2cm}}
+\newcommand{\stepto}{\mapsto}
+\newcommand{\stepsto}{\mapsto^*}
+\newcommand{\aeq}{=_{\alpha}}
+% \renewcommand{\mysubst}[3]{[#1/#2]#3}
+
+\newcommand{\ftype}[2]{#1 \rightarrow #2}
+
+\newcommand{\myitem}{\minuslinespace \item}
+
+\newcommand{\minilang}{\mathit{MiniLang}}
+

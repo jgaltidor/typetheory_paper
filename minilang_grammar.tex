@@ -1,0 +1,70 @@
+\section{$\minilang$ Grammar}
+\label{sec:grammar}
+This section presents the \emph{syntax} of $\minilang$,
+a language of numbers and strings.
+The following notation may be different than expected
+because most programmers write programs in the
+\emph{concrete syntax} of a language.
+However, \emph{concrete syntax} just specifies how
+humans write programs in the language.
+Type systems are often written over the
+\emph{abstract syntax} of the language to
+reflect that expressions in the language are
+\emph{abstract syntax trees} (ASTs)
+or more simply called \emph{terms}.
+ASTs are mathematical-like expressions
+that represent a composition of \emph{nodes}.
+Each AST has the form: \\*
+$operator(operand_1, operand_2, \ldots, operand_n)$,
+where each operand is an AST, the operator
+is a root node of these ASTs, and $n \geq 0$.
+AST nodes are operators that take a specified
+number of operands.
+An operator can take in zero operands; in this case,
+the parentheses after the operator are typically not written.
+For instance, in the AST \code{add(6, 1)},
+the node \code{6} could have been written as
+\code{6()},
+and \code{add(6, 1)} is equivalent to \code{add(6(), 1())}.
+Only the abstract syntax is needed to reason about
+a language.
+
+The abstract and concrete syntax of a language is defined with a
+\emph{formal grammar} that specifies \emph{production rules} on how AST
+nodes are constructed.
+Each production rule has the form
+``\mbox{$A \bnfdef B_1 \bnfalt B_2 \bnfalt \ldots \bnfalt B_n$}''.
+A \emph{non-terminal symbol} $A$ denotes a set of ASTs specified
+by a production rule, where $A$ is on the left-hand side
+of the $\bnfdef$.
+Each $B_i$ denotes a category of AST nodes
+or a \emph{terminal symbol} denoting a specific AST node.
+The production rule specifies that the $A$ symbol denotes
+the category of nodes that is the union of nodes
+in $B_1, B_2, \ldots, B_n$.
+Figure~\ref{fig:grammar} shows the grammar of $\minilang$.
+
+\input{figures/grammar.tex}
+
+The only non-terminal symbol in $\minilang$ is $e$,
+which denotes the set of ASTs that are expressions.
+Expressions can be the following:
+\begin{enumerate}
+\item Numbers: \code{num[$n$]},
+where $n$ is a sequence of digits.
+\item Strings: \code{str[$s$]},
+where $s$ is a sequence of characters.
+\item Variable names: $x$
+\item The sum of two subexpressions: \code{+($e_1$, $e_2$)}.
+\item The string concatenation of two subexpressions:
+\code{\^{}($e_1$, $e_2$)}.
+\item A let expression where the subexpression
+$e_2$ is evaluated in a context that has variable
+$x$ bound to the value of $e_1$. 
+\end{enumerate}
+
+Example expressions are shown in Figure~\ref{fig:ex_expressions}.
+For the remaining sections in this paper, only the abstract
+syntax will be shown.
+
+\input{figures/ex_expressions.tex}

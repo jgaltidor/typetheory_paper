@@ -1,0 +1,68 @@
+\section{Progress Theorem}
+\label{sec:progress}
+$\minilang$ expressions are evaluated to values by
+inputting them to the transition system defined
+by the dynamic semantics given in Figure~\ref{fig:eval_rules}.
+Each transition in the system \emph{reduces} an expression or
+brings the expression closer to a value.
+However, not every irreducible expression is a value such as
+the following: \\*
+
+\texttt{+(num[5]; str[abc])} $\stepto \times$
+
+An expression $e$ that is not a value, but for which there does
+\emph{not} exists an $e'$ such that $e \stepto e'$ is said to be \emph{stuck}.
+It should be the case that any stuck expression is ill-typed.
+Moreover, well-typed expressions do not get stuck.
+This property is expressed formally by the progress theorem.
+
+\begin{thm}
+\textbf{(Progress)}
+If $e : \tau$, then either
+\texttt{$e$ value} or there exists an expression $e'$ such
+that $e \stepto e'$.
+\end{thm}
+
+Progress is proved by induction on the typing rules.
+Again there a lot of cases, so for brevity
+we show just one case to get an idea of
+how to prove this theorem.
+
+\subsection{Inductive Case: (\texttt{T.4}) -- Addition Case}
+
+\[
+\cinfer[T.4]{+($e_1$, $e_2$): num}
+  {\code{$e_1$: num} & \code{$e_2$: num}}
+\]
+By the inductive hypothesis,
+since \texttt{$e_1:$ num}, either \texttt{$e_1$ value}
+or there exists an expression $e'_1$ s.t.
+$e_1 \stepto e'_1$.
+
+Suppose \texttt{$e_1$ value}. Then either
+\texttt{$e_1=$  num[$n_1$]} or \texttt{$e_1=$  str[$s_1$]}.
+Since \texttt{$e_1:$ num}, then it must be the case that
+\texttt{$e_1=$  num[$n_1$]}.
+
+Therefore, \texttt{$e_1=$  num[$n_1$]} or
+there exists an expression $e'_1$ such that
+$e_1 \stepto e'_1$.
+Similarly, \texttt{$e_2=$  num[$n_2$]} or
+$e_2 \stepto e'_2$ for some $e'_2$.
+
+Suppose $e_1 \stepto e'_1$. Then:
+\[
+\cinfer[D.1]{+($e_1$; $e_2$) $\stepto$ +($e'_1$; $e_2$)}{e_1 \stepto e'_1}
+\]
+
+Suppose \texttt{$e_1=$  num[$n_1$]} and $e_2 \stepto e'_2$. Then:
+\[
+\cinfer[D.2]{+(num[$n_1$]; $e_2$) $\stepto$ +(num[$n_1$]; $e'_2$)}{e_2 \stepto e'_2}
+\]
+
+Suppose \texttt{$e_1=$  num[$n_1$]} and \texttt{$e_2=$  num[$n_2$]}. Then:
+\[
+\cinfer[D.3]{+(num[$n_1$]; num[$n_2$]) $\stepto$ num[$n_1 + n_2$]}{ }
+\]
+
+We have covered all of the nested cases for rule \texttt{T.4}. $\qed$

@@ -1,0 +1,162 @@
+\subsection{Twelf Theorems, Proofs, and Wrapup}
+Explaining all of the details of the Twelf code is
+beyond the scope of this paper.
+So in this section, we conclude the Twelf discussion with a brief
+overview of the files in the zip archive~\cite{minilang-twelf},
+how theorems are specified in Twelf, presenting example Twelf proofs,
+and explaining how Twelf helps with proving theory about languages.
+
+
+\subsubsection{Twelf Project Files}
+Twelf projects are stored in directories containing a configuration
+file typically named \code{sources.cfg}.
+The \code{sources.cfg} file tells Twelf the files to read
+and the order in which to process them.
+The \code{evaluation.elf} file contains the dynamic semantics
+of $\minilang$.
+\code{preservation.elf} contains the preservation theorem
+and its proof.
+\code{progress.elf} contains the progress theorem
+and its proof.
+The remaining files are explained in other sections of this
+document.
+
+\subsubsection{Theorems are Function Types. Proofs of Theorems are Function Terms.}
+Theorems in Twelf are encoded in a similar manner to
+(for all)-(there exists) queries.
+For example, below is the encoding of the progress theorem.
+
+\begin{verbatim}
+%theorem  
+progress :
+  forall* {E} {T}
+  forall {O:of E T} exists {NS:not_stuck E}
+  true.
+\end{verbatim}
+
+The \code{forall*} line declares the variables in the theorem.
+The next line states that for every derivation of the typing judgment,
+\code{of E T}, where the derivation of that judgment is bound to \code{O}, there
+exists a derivation of the judgment that expression \code{E} is
+not stuck (\code{NS:not\_stuck E}).
+The following two rules define the \code{not\_stuck} judgment.
+
+\code{not\_stuck/val: not\_stuck E <- value E.} states that if
+\code{E} is value, then \code{E} is not stuck.
+
+\code{not\_stuck/step: not\_stuck E <- step E E'.} states that if
+there exists an \code{E'} such that \code{step E E'},
+then \code{E} is not stuck as well.
+
+Note that the above progress theorem is nothing more than a function
+type.
+Given a term/proof of the judgment \code{of E T},
+a function of this type should return a term/proof of
+the judgment \code{not\_stuck E}.
+Hence, a proof of the progress theorem/(function type) is a (total)
+function or term of the function type representing the theorem.
+
+\subsubsection{Checking and Deriving Proofs}
+The benefit of using Twelf is that it can check your proofs
+and occasionally derive proofs.
+For example, the file \code{test\_typing.elf} provides two
+example judgments that can be derived by Twelf.
+
+\begin{verbatim}
+%query * 1 D1 : of (estr (a , b , c , a , eps)) string.
+%query * 1 D2 : of (add (enat (s z)) (enat z)) num.
+\end{verbatim}
+
+The first query ask Twelf to derive that the type of
+the \code{str[abca]} is \code{str},
+and save that derivation in \code{D1}.
+The second query ask Twelf to derive that the
+type of \code{+(num[1]; num[0])} is \code{num},
+and save that derivation in \code{D2}.
+
+Below is the output of Twelf from those queries.
+
+\begin{verbatim}
+loadFile test_typing.elf
+[Opening file test_typing.elf]
+%query * 1
+
+of (estr (, a (, b (, c (, a eps))))) string.
+---------- Solution 1 ----------
+Empty Substitution.
+D1 = of/str (, a (, b (, c (, a eps)))).
+____________________________________________
+
+%query * 1
+
+of (add (enat (s z)) (enat z)) num.
+---------- Solution 1 ----------
+Empty Substitution.
+D2 = of/add (enat z) (enat (s z)) (of/nat z) (of/nat (s z)).
+\end{verbatim}
+
+Twelf finds derivations of both queries.
+For the first query, it finds the derivation
+\begin{verbatim}
+D1 = of/str (, a (, b (, c (, a eps)))).
+\end{verbatim}
+It says that applying the \code{of/str} function
+to the \code{str} term
+\code{(, a (, b (, c (, a eps))))} returns a
+term/derivation of the type/judgment
+``\code{of (estr (a , b , c , a , eps)) string}''.
+
+For the second query,
+it finds the derivation
+\begin{verbatim}
+D2 = of/add (enat z) (enat (s z)) (of/nat z) (of/nat (s z)).
+\end{verbatim}
+Derivation \code{D2} says:
+\begin{enumerate}
+\item Apply \code{of/nat} to \code{z}
+to return a derivation of ``\code{of (enat z) num}''.
+\item Apply \code{of/nat} to ``\code{enat (s z)}''
+to return a derivation of ``\code{of (enat (s z)) num}''.
+\item Apply \code{of/add} to the derivations
+of ``\code{of (enat z) num}'' and ``\code{of (enat (s z)) num}''
+to return a derivation of
+``\code{of (add (enat (s z)) (enat z)) num}''.
+The first term \code{(enat z)} establishes
+that the third term should be a term of type
+``\code{of (enat z) num}'';
+hence, the type of the third argument of \code{of/add}
+depends on the first term passed to \code{of/add}.
+The situation is analogous for the second and fourth
+terms of \code{of/add}.
+\end{enumerate}
+
+Twelf could not derive the proof of the preservation theorem,
+but it could let you know if your proof was incorrect.
+For example, lines 13--17 in \code{preservation.elf}
+prove preservation for the typing-evaluation rule combination
+(T.4, D.1).
+If I were to remove these lines, Twelf would return the following
+error output:
+
+\begin{verbatim}
+preservation.elf:69.8-69.11 Error: 
+Coverage error --- missing cases:
+{E1:exp} {E2:exp} {E3:exp} {O1:of (add E1 E2) num} {S1:step E1 E3}
+   {O2:of (add E3 E2) num}
+   |- preservation O1 (step/add1 S1) O2.
+\end{verbatim}
+
+The error message lets us know that we forgot to prove preservation
+for the case when we could derive ``\code{of (add E1 E2) num}''
+and ``\code{step (add E1 E2) (add E3 E2))}''
+(\code{+($e_1$; $e_2$)} $\stepto$ \code{+($e_3$; $e_2$)}) by
+applying the \code{step/add1} rule; for this case,
+we would need to produce a derivation of \code{of (add E3 E2) num};
+this would show that performing an evaluation step on the first
+summand of a well-typed \code{add} expression would not change
+the type of resulting \code{add} expression.
+
+In summary, Twelf can aid with deriving simple judgments and checking
+that proofs of language properties are correct.
+If a proof is not correct, Twelf can let us know that the proof
+contains a mistake and provide an error message to help ``debug'' the proof.

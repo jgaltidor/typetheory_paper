@@ -1,0 +1,27 @@
+\begin{figure}[htb]
+\[
+\cinfer[T.1]{$\Gamma \vdash$ num[$n$]: num}{ }
+\qquad
+\cinfer[T.2]{$\Gamma \vdash$ str[$s$]: str}{ }
+\qquad
+\infer[T.3]{\Gamma \vdash x: \tau}{(x, \tau) \in \Gamma}
+\]
+
+\[
+\cinfer[T.4]{$\Gamma \vdash$ +($e_1$; $e_2$): num}
+  {\code{$\Gamma \vdash e_1$: num} & \code{$\Gamma \vdash e_2$: num}}
+\qquad
+\cinfer[T.5]{$\Gamma \vdash$ \^{}($e_1$; $e_2$): str}
+  {\code{$\Gamma \vdash e_1$: str} & \code{$\Gamma \vdash e_2$: str}}
+\]
+
+\[
+\cinfer[T.6]{$\Gamma \vdash$ let($x$; $e_1$; $e_2$): $\tau_2$}
+  {\Gamma \vdash e_1: \tau_1
+   &
+   \Gamma , x : \tau_1 \vdash e_2 : \tau_2
+  }
+\]
+\caption{Static Semantics of $\minilang$}
+\label{fig:type_rules} 
+\end{figure}

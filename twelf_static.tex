@@ -1,0 +1,87 @@
+\subsection{$\minilang$ Static Semantics and Judgments in Twelf}
+The \code{typing.elf} file contains the encoding of
+$\minilang$'s static semantics in Twelf.
+Line 5 defines the relation \code{of} representing
+the judgment $e : \tau$ by defining it to be a function
+kind or
+\emph{type family}~\cite{GHCTypeFamily,TwelfTypeFamily}:
+Functions that return types instead of terms.
+The ``\code{of}'' relation can be thought of as (1) a function
+that returns types when applied to \code{exp} and \code{typ} terms
+or (2) as a set of types \emph{indexed} by \code{exp} and \code{typ} terms.
+
+Judgments are represented in Twelf as
+\emph{dependent types}~\cite{TwelfTypeJudge,advancetypes_ch02,Twelf-DependentTypes}.
+The \code{of} type family returns dependent types of kind \code{type},
+and hence, \code{of} returns judgments.
+% Introduce dependent types
+Dependent types are types that include terms as one of its components.
+Example dependent types come from the set of $n$-dimensional vectors
+of real numbers denoted \code{Vec($n$)}.
+For instance, suppose \code{3} is a term representing the number $3$,
+$\nats$ is a type representing the set of natural numbers,
+and \code{3} is of type $\nats$.
+Then \code{Vec(3)} is a dependent type representing
+$3$-dimensional vectors of real numbers.
+A term of type \code{Vec(3)} is the vector $[7, 3, 4]$.
+\code{Vec($n$)} denotes the type family
+indexed by natural numbers:
+\code{Vec(0)}, \code{Vec(1)}, \code{Vec(2)}, \code{Vec(3)}, \ldots
+
+% Back to Twelf
+The \code{of} type family is indexed by \code{exp} and \code{typ} terms.
+The dependent type ``\mbox{\code{of $e$ $\tau$}}'' represents
+the judgment $e : \tau$.
+A derivation of a judgment/type is represented by a term of that type.
+Consider the function term \code{of/nat} defined on line 7.
+Strings that begin with capital letters in Twelf are interpretted
+to be parameters.
+The \code{N} parameter in ``\mbox{\code{of (enat N) num}}'' is passed
+to the \code{enat} function term.
+Since \code{enat} only takes in values of type
+\code{nat}, so does \code{of/nat}.
+Twelf is able to infer that the \code{N} variable must be
+bound to a term of type \code{nat}.
+
+At first, it seems the \code{of/nat} function returns types.
+For example, it seems ``\code{of/nat z}'' returns
+the dependent type ``\mbox{\code{of (enat z) num}}''.
+However, ``\code{of/nat z}'' actually returns
+a \emph{term} of type ``\mbox{\code{of (enat z) num}}''.
+The term returned by ``\code{of/nat z}'' represents a derivation
+of the judgment $z : \code{num}$
+represented by the type ``\mbox{\code{of (enat z) num}}''.
+Hence, the \code{of/nat} term corresponds to rule \code{T.1},
+which is the rule that allows us to derive that any natural
+number has type \code{num}.
+Similarly, the \code{of/str} function term takes in any string
+and returns a derivation/term of a judgment/type stating that string
+has type \code{string}.
+
+The \code{of/add} function term corresponds to rule \code{T.4}.
+Premises of inference rules are represented by inputs that must be
+terms of a dependent type.
+For example, \code{of/add} takes in two (explicit~\cite{Twelf-Implicit})
+arguments of dependent types.
+\footnote{of/add actually takes in four arguments.
+The first two arguments are the \code{exp} terms \code{E1} and
+\code{E2}.
+However, these arguments are \emph{implicit} arguments and
+typically do not need to be mentioned because they can be inferred
+from the last two \emph{explicit} arguments of dependent types.
+For example, since the dependent type ``\mbox{\code{of E1 num}}'' includes
+\code{E1} as one if its components, Twelf can extract \code{E1}
+from this type.
+For more information on implicit and explicit arguments
+see~\cite{Twelf-Implicit}.}
+\code{E1} and \code{E2} are variables bound to terms of type \code{exp}.
+The dependent type ``\mbox{\code{of E1 num}}'' represents the judgment
+$e_1 : \code{num}$.
+A term of type ``\mbox{\code{of E1 num}}'' represents a derivation
+of $e_1 : \code{num}$.
+Hence, \code{of/add} takes in a derivation of $e_1 : \code{num}$
+and a derivation of $e_2 : \code{num}$ and returns
+a term of type ``\mbox{\code{of (add E1 E2) num}}'', which represents
+a derivation of the judgment \mbox{\code{+($e_1$; $e_2$) $:$ num}}.
+
+\input{twelf_higher_judge.tex}

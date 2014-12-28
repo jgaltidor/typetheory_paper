@@ -1,0 +1,84 @@
+\subsubsection{Representing terms w/ variables in Twelf
+using Higher-Order Abstract Syntax}
+\label{sec:twelf-hoas}
+
+The encoding of the \texttt{let} term in Twelf uses the
+technique of \emph{higher-order abstract syntax} (HOAS)~\cite{Twelf-HOAS}.
+HOAS is a technique for representing abstract syntax trees
+with bound variables.
+The abstract syntax from Section~\ref{sec:grammar} used to describe
+the grammar of $\minilang$ is actually
+\emph{first-order abstract syntax} (FOAS).
+In FOAS, each AST has the form $o(t_1, t_2, \ldots, t_n)$,
+where $o$ is an operator and $t_1, t_2, \ldots, t_n$ are each
+AST themselves.
+The operands of an operator correspond to subexpressions.
+For example, in ``\texttt{+($e_1$; $e_2$)}'',
+$e_1$ and $e_2$ are operands/subexpressions of the
+\texttt{+} operator.
+The Twelf encoding of ``\texttt{+($e_1$; $e_2$)}''
+is ``\texttt{add : exp -> exp -> exp.}'',
+where the \texttt{add} corresponds to \texttt{+},
+the leftmost \texttt{exp} corresponds to $e_1$,
+and the middle \texttt{exp} corresponds to $e_2$.
+
+In HOAS, ASTs declare the variables they bind.
+For example, consider the AST
+$o(t_1, t_2, \ldots, t_n)$.
+In HOAS, each $t_i$ has the form
+$x_1, x_2, \ldots x_k.t$, where $t$ is an AST,
+each $x_j$ is a variable bound in $t$, and $k \geq 0$;
+if $k = 0$, then $t_i$ does not introduce new variables in $t$.
+One advantage of knowing each variable introduced by an AST
+is that we can rename variables without changing the meaning
+the AST.
+
+Now consider the \texttt{let} expression in $\minilang$ and
+its representation in FOAS:
+\[\code{let($x$; $e_1$; $e_2$)}\]
+Recall that this \code{let} expression is evaluated by
+binding the variable $x$ to the value of $e_1$ in $e_2$.
+Hence, the \code{let} expression can be represented by the
+following HOAS:
+\[\code{let($e_1$; $x.e_2$)}\]
+The ``$x.e_2$'' captures that $x$ is bound in $e_2$.
+HOAS lets us know where variables are being bound.
+This lets us easily determine that the following two expressions
+are equivalent, since they only differ in variable names:
+\[ \code{let(3; $x$.+($x$; 4))} \equiv \code{let(3; $y$.+($y$; 4))}\]
+
+Our Twelf encoding of the \code{let} expression encodes its
+HOAS version, which can be seen with the type of its
+second argument: \code{(exp -> exp)}.
+Usually, each operator such as \code{add} and \code{cat}
+only took in \code{exp} arguments, where the arguments
+represented subexpressions.
+However, the second argument to \code{let} is not just an
+ordinary subexpression but a subexpression that introduces
+a new variable.
+The second argument to \code{let} represents a higher-order
+AST of the form ``$x.e_2$''.
+
+An AST that introduces new variables is represented in
+Twelf by a function.
+Functions in programming languages are really just terms
+with \emph{holes}.
+The holes are represented by free variables,
+and these holes are filled in when these
+(terms w/ holes)/functions are applied to other terms.
+Hence, ``$x.e_2$'' can be thought of as the function
+or \emph{lambda-abstraction} ``$\lambda x.e_2$'',
+where $e_2$ is the body of the function and $x$ is a variable
+that is bound to a term in $e_2$.
+A term $t$ of type \code{(exp -> exp)} will be a term of type
+\code{exp} that contains occurrences of a free variable that
+will be replaced with another term when $t$ is applied to it.
+Twelf's syntax for the function ``$\lambda x.e$'' is
+``\code{[$x$] $e$}''.
+Figure~\ref{fig:hoas} gives a concrete example of a
+\texttt{let} expression in
+concrete syntax and its corresponding representation
+in Twelf's HOAS.
+
+\input{figures/hoas_twelf.tex}
+

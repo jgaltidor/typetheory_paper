@@ -1,0 +1,49 @@
+\section{Type Preservation}
+\label{sec:preservation}
+Type preservation or simply preservation is an important property that
+programming languages should have to rule out some errors that could
+result in a programs with undefined behavior.
+It connects static semantics with the dynamic semantics.
+Informally, the Preservation Theorem states that evaluating an
+expression does not change its type.
+Formally:
+
+\begin{thm}
+\label{thm:preservation}
+\textbf{(Preservation)}
+If $e : \tau$ and $e \stepto e'$, then $e' : \tau$.
+\end{thm}
+
+Preservation is important for real programming languages.
+Suppose, for example, that Java did not preserve types
+during evaluation, and consider what could go wrong in
+the following code segment:
+
+\begin{verbatim}
+int x;    // 4 bytes in Java
+double y; // 8 bytes in Java
+\end{verbatim}
+\texttt{x = }$\underbrace{\texttt{x + 8}}_{\text{What if
+this evaluated to a double?}}$
+
+\linespace
+Different formats are used by compilers to represent values of
+different types.
+In order to interpret what is being represented by bytes at
+certain memory locations, the compiler has to know
+what type of value is at this location.
+Once the compiler knows what type of value is at a location,
+it knows the procedure to use to interpret the bytes at that location
+and the appropriate instructions to generate.
+However, if the type of the value at that location changed without
+the compiler knowing, then when the program tries to use the value
+at that location, what the program will do next is undefined.
+Hence, type preservation is needed to ensure that the behavior
+of the program throughout its execution is well-defined.
+
+The remainder of this section proves preservation for $\minilang$.
+We prove preservation by induction by showing that for each possible 
+combination of the typing and evaluation judgments, preservation holds.
+
+\input{preservation_proof.tex}
+

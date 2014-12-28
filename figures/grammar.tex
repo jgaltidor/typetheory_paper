@@ -1,0 +1,15 @@
+\begin{figure}[H]
+\[
+\begin{array}{llrl@{\hspace{1.5cm}}l}
+\mathit{Category}   & \mathit{Item}   & & \mathit{Abstract} & \mathit{Concrete} \\ \\
+\mathit{Expression} & e & \bnfdef & x                              & x \\
+                    &   & \bnfalt & \code{num[$n$]}                & n \\
+                    &   & \bnfalt & \code{str[$s$]}                & \code{'$s$'} \\
+                    &   & \bnfalt & \code{+($e_1$; $e_2$)}         & \code{$e_1$ + $e_2$} \\
+                    &   & \bnfalt & \code{\^{}($e_1$; $e_2$)}      & \code{$e_1$ \^{} $e_2$} \\
+                    &   & \bnfalt & \code{let($x$; $e_1$; $e_2$)}  & \code{let $x$ be $e_1$ in $e_2$}
+\end{array}
+\]
+\caption{Grammar of $\minilang$}
+\label{fig:grammar}
+\end{figure}

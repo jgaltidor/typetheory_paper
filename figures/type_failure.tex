@@ -1,0 +1,15 @@
+\begin{figure}[htb]
+\[
+\cinfer{$\vdash$ let(hours; num[24]; +(hours; str[abc])}
+  {\cinfer[T.1]{$\vdash$ num[24]: num}{ }
+   &
+   \cinfer{hours : num $\vdash$ +(hours; str[abc]): $Fail$}
+     {\cinfer[T.3]{hours : num $\vdash$ hours: num}{ }
+      &
+      \cinfer[T.1]{hours : num $\vdash$ str[abc]: str}{ }
+     }
+  }
+\]
+\caption{Example Type Failure}
+\label{fig:type_failure} 
+\end{figure}

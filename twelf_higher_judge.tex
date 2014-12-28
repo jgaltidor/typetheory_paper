@@ -1,0 +1,94 @@
+\subsubsection{Higher-Order Judgments in Twelf}
+Inference rules involving typing contexts
+such as rule \code{T.6} are \emph{hypothetical judgments}~\cite{TwelfHypothetical}
+or judgments that make use of hypothetical assumptions.
+Hypothetical judgments can be encoded in Twelf using
+\emph{higher-order judgments}~\cite{TwelfHigherOrder}
+or judgments that contain other judgments.
+Higher-order judgments are encoded in Twelf as \emph{higher-order types}.
+Higher-order types are functions types, where one of their input types
+is also a function type.
+Encoding higher-order judgments as higher-order types is similar to
+the technique of higher-order abstract syntax discussed in
+Section~\ref{sec:twelf-hoas}, where syntactic terms with binders
+(e.g. the body of the \code{let} expression) are encoded as
+terms with holes or equivalently
+functions that take in terms as input and return terms.
+Higher-order judgments are encoded with function types that have
+input types representing the hypothetical assumptions.
+
+Higher-order types representing hypothetical judgments involve
+\emph{pi-types}, denoted $\Pi x:S.T$.
+A pi-type is a special kind of function type.
+Terms of pi-types are \emph{pi-abstractions}.
+First, a \emph{lambda-abstraction}, denoted ``$\lambda x:S.e$'',
+is a function term of a more conventional kind of function type,
+ $\ftype{S}{T}$.
+A function of this type takes in a term of type $S$ and
+returns a term of type $T$.
+However, a pi-abstraction of pi-type $\Pi x:S.T$ would map
+a term $s$ of type $S$ to a term of type $[s / x]T$.
+That is, the return type of a pi-type can vary according
+to the argument supplied.
+Hence, if $x$ is (syntactically) a part of $T$ in the pi-type
+$\Pi x:S.T$, then a term returned by a function of that
+pi-type is a term of a dependent type, since the return type
+$T$ depends on the input term $x$.
+If $x$ is not a part of $T$ in $\Pi x:S.T$,
+then we abbreviate $\Pi x:S.T$ as $\ftype{S}{T}$,
+which also signals that a lambda-abstraction can be of
+this type, since the return type does not involve the argument.
+Lastly, the pi-type $\Pi x:S.T$ is represented in Twelf syntax
+as \code{\{x:S\} T}.
+
+A common Twelf coding convention is used in
+the return type of the \code{of/let} function term
+given on line 20 of the \code{typing.elf} file:
+``\mbox{\code{of (let E1 ([x] E2 x)) T2}}''.
+This code snippet could have been replaced with
+the shorter snippet:
+``\mbox{\code{of (let E1 E2) T2}}''.
+The \code{E2} in the shorter snippet
+already denotes a term
+of function type ``\mbox{\code{exp -> exp}}''
+(or equivalently, an \code{exp} with free variable
+occurrences).
+However, we applied a Twelf coding convention when
+we replaced \code{E2} with the equivalent function
+term \code{([x] E2 x)}.
+The wrapper function \code{([x] E2 x)} is used 
+just to make it easier to see that \code{E2} is
+a function term that takes in a single argument.
+
+The \code{of/let} term represents rule \code{T.6}
+and is of a higher-order type:
+\begin{verbatim}
+of/let :  ({x: exp} of x T1 -> of (E2 x) T2) ->
+          of E1 T1 ->
+          of (let E1 ([x] E2 x)) T2
+\end{verbatim}
+The second argument type ``\mbox{\code{of E1 T1}}''
+corresponds to the premise ``$e_1 : \tau_1$''.
+The type of \code{of/let}'s first argument is the pi-type:
+``\mbox{\code{\{x: exp\} of x T1 -> of (E2 x) T2}}'';
+let $P$ denote this pi-type.
+A pi-abstraction of type $P$ takes in two arguments:
+The first is an \code{exp} term, which will be bound to
+\code{x}.
+The second is a term of type ``\mbox{\code{of x T1}}''
+representing a proof that \code{x} has type \code{T1}.
+Given two such terms,
+a pi-abstraction of type $P$ should return
+a derivation of ``\mbox{\code{of (E2 x) T2}}'',
+where \code{(E2 x)} is the \code{E2} term with its hole
+filled in by the \code{exp} term that is bound to \code{x}.
+
+The pi-type $P$ represents the second premise
+``\mbox{$\Gamma , x : \tau_1 \vdash e_2 : \tau_2$}''
+of rule ~\code{T.6}.
+Passing a derivation \code{dx} of type ``\mbox{\code{of x T1}}''
+to a pi-abstraction simulates extending the typing context
+with the assumption ``\mbox{$x : \tau_1$}''.
+The derivation \code{dx} of type ``\mbox{\code{of x T1}}''
+can be used in the body of the pi-abstraction to
+return a term/proof of ``\mbox{\code{of (E2 x) T2}}''.

@@ -1,0 +1,91 @@
+\section{Static Semantics}
+\label{sec:static}
+Although grammars only allow a limited set of ASTs,
+a language may want to filter out additional ASTs allowed by
+the grammar that are not well-formed or ``make sense'' according to
+the language specification.
+For $\minilang$ we will formally define the
+addition of two numbers
+and the concatenation of two strings.
+On the contrary, we will not define the
+addition between a number and a string and
+likewise for concatenation.
+We say such expressions are \emph{ill-defined}
+or \emph{ill-typed} and are not considered part of
+the $\minilang$ language.
+According to this specification,
+the following two expressions are ill-typed
+even though they are in the grammar of $\minilang$.
+
+\begin{enumerate}
+\item \code{+(num[4], str[doe])}
+\item \code{let(daysPerWeek, str[seven], +(num[1], daysPerWeek))}
+\end{enumerate}
+
+Filtering out ill-typed ASTs is not always possible with only
+the grammar specification such as the second AST above.
+The reason is because the grammar is \emph{context-free},
+and determining that the second AST is ill-typed requires
+a \emph{context-sensitive} analysis.
+Programming languages typically specify their syntax with
+context-free grammar because they are conceptually and
+computationally easier to parse than context-sensitive
+grammars.
+The reason why is beyond the scope of this paper.
+
+This filtering process is performed by \emph{type checking}
+the AST nodes.
+Type checking tries to derive a type to each AST node
+using the inference rules of the \emph{static semantics}
+of a language.
+If no such type can be assigned to a node, the node is
+not considered to be well-typed (well-formed) and compilers would flag
+it as an error in the program.
+
+Inferences rules have the following form:
+\[
+\infer[Rule Label]{\underbrace{J}_{conclusion}}
+      {\overbrace{J_1 \quad J_2 \quad \ldots \quad J_n}^{premises}}
+\]
+Each $J_i$ is a proposition or \emph{judgment}.
+If all of the judgments of the premise ($J_i$'s) are true,
+then the conclusion judgment $J$ is true.
+Rules with no premises are axioms because the conclusion
+is true under any conditions.
+Judgments asserting the type of an AST node typically have
+the form \mbox{\code{$\Gamma \vdash e$ : $\tau$}} saying that node $e$ has type
+$\tau$ under the typing context $\Gamma$, where $\Gamma$
+is a function mapping variable names to types.
+
+Consider type checking $\minilang$.
+To discriminate between expressions that are numbers and
+strings, we define two types: \code{num} and \code{str}.
+
+Figure~\ref{fig:type_rules} gives the typing rules for $\minilang$.
+Rule \code{T.1} says that every number has type \code{num}.
+Rule \code{T.2} says that every string has type \code{str}.
+Rule \code{T.3} says that if the typing context maps
+a variable $x$ to type $\tau$, then in that context, $x$ has type
+$\tau$.
+Rule \code{T.4} says that the addition of two subexpressions that
+have type \code{num} is also a \code{num}.
+Rule \code{T.5} says that the concatenation of two subexpressions that
+have type \code{str} is also a \code{str}.
+Rule \code{T.6} is the more complicated rule that uses 
+multiple typing contexts.
+It says that if $e_1$ (which will be the value of $x$ in $e_2$)
+in context $\Gamma$ has type $\tau_1$ and if under the context of
+$\Gamma$ \emph{extended} with the mapping $(x, \tau_1)$ that
+$e_2$ has type $\tau_2$, then the entire \code{let} expression has
+type $\tau_2$.
+
+
+Figure~\ref{fig:type_derive} shows how typing rules are
+applied to derive the type of an expression.
+Figure~\ref{fig:type_failure} shows how an ill-typed
+expression is discovered.
+
+\input{figures/type_rules.tex}
+\input{figures/type_derive.tex}
+\input{figures/type_failure.tex}
+

@@ -1,0 +1,45 @@
+\section{Twelf}
+\label{sec:twelf}
+In previous sections we showed how to formalize
+a programming language with a grammar for defining
+its syntax, static semantic (type checking) rules that
+defined which programs in a language are well-formed,
+and dynamic semantics defining how to execute programs in the language.
+There is no point in a formalization if
+it does not guarantee some properties.
+We presented two important properties,
+preservation and progress, that connect the static semantics
+(compile-time analysis) with the dynamic semantics
+(runtime behavior).
+
+We showed how to prove properties of languages by
+structural induction.
+These proofs are typically are long, tedious,
+and involve many cases.
+As a result, it is easy to make a mistake in
+the reasoning of the proofs.
+Also, the length and detail of these proofs means
+it is easy for a human to miss mistakes in the proof
+while reading.
+However, verifying and deriving proofs can (sometimes)
+be done automatically.
+Proof assistants/automated theorem provers such as Twelf~\cite{Twelf},
+Coq~\cite{Coq}, and Isabelle~\cite{Isabelle} are software tools
+that enable one to encode theory in their respective languages.
+Depending on the power of these tools, they can
+verify proofs of theorems or derive proofs
+of theorems.
+Using any of these tools involve a very large learning curve,
+and explaining all of the details of how they work
+is beyond the scope of this paper.
+To sketch an idea of how they work,
+the remainder of this section briefly goes over some of
+the Twelf encoding of $\minilang$, which can be
+found in the zip archive~\cite{minilang-twelf}.
+Further details on using Twelf can be found in Twelf
+tutorials~\cite{TwelfTutorial}.
+
+\input{twelf_syntax.tex}
+\input{twelf_static.tex}
+\input{twelf_wrapup.tex}
+

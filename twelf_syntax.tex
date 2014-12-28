@@ -1,0 +1,95 @@
+\subsection{$\minilang$ Syntax in Twelf}
+The \code{syntax.elf} (from~\cite{minilang-twelf}) file contains
+the encoding of $\minilang$'s syntax in Twelf.
+In Twelf, there are three \emph{levels} of objects.
+\emph{Kinds} are at the highest level.
+\emph{Types} are at the second level.
+\emph{Terms} are at the lowest level.
+Each type is of a certain kind.
+Each term is of a certain type.
+For example, we could think of
+the type \code{Array[Int]}, which is an
+array of integers, to be of kind \code{Array}.
+A term of type \code{Array[Int]} could be
+\code{[1, 2, 3, 4]}.
+In Twelf, one defines their language by defining
+kinds, types, and terms.
+The kind \code{type} is a primitive kind defined
+in the Twelf language.
+More information on Twelf's type system can be
+found in~\cite{TwelfMetaTheory}.
+
+We are now ready to examine the \code{syntax.elf} file.
+On line 4,
+``\code{exp : type}'' says that \code{exp} is a type
+of kind \code{type}.
+Similarly, line 7 defines \code{typ} is a type
+of kind \code{type},
+and line 10 defines \code{nat} is a type
+of kind \code{type}.
+Line 11 defines the term \code{z} to be of
+type \code{nat}.
+Line 12 defines \code{s} to be a function term
+of the function type from \code{nat}'s to \code{nat}'s.
+Lines 11 and 12 encode the natural numbers
+\code{\{z, s(z), s(s(z)), s(s(s(z))), \ldots \}}.
+Lines 14--22 define strings to be a sequence of
+the \code{char}'s separated by commas.
+The functions \code{enat} and \code{estr}
+basically are just ways to say that natural
+numbers and strings are also expressions.
+For example, \code{z} has type \code{nat},
+but \code{(enat z)} has type \code{exp}.
+\footnote{It would be nice if Twelf had the notion of
+subtyping.
+Then we could just tell Twelf \code{nat} $<:$ \code{exp},
+so Twelf would infer that \code{z} should also have type
+\code{exp} without having to wrap it as \code{enat z}.}
+
+Lines 29--32 define the category of expressions
+with function types.
+For instance,
+``\code{add : exp -> exp -> exp.}''
+says that \code{add} is a function that takes into
+two \code{exp}'s and returns an \code{exp}.
+This corresponds to the grammar rule
+\[\mathit{Expression} \; e \; \bnfdef \; \code{+($e_1$; $e_2$)}\]
+stating that the addition of two expressions is also an expression.
+\footnote{There are a few minor things missing in the definition
+of $\minilang$ in this paper and its encoding in Twelf.
+For example, line 32 defines an expression for representing the
+length of a string (\code{len($e$)}).
+Somethings were left out to try to keep this paper brief.}
+Similarily, ``\code{cat : exp -> exp -> exp.}''
+says that \code{cat} is a function that takes into
+two \code{exp}'s and returns an \code{exp};
+\code{cat} corresponds to the string concatenation of two
+subexpressions.
+The last two lines of \code{syntax.elf} define two terms
+\code{num} and \code{string} that represent the only two
+types in $\minilang$.
+
+The number of arguments a function term defined in Twelf
+takes may not be clear to a reader who is not familiar with
+\emph{currying}~\cite{CurryHaskel,CurryScala}.
+For example, the \code{add} function term looks like a
+function that takes in a single \code{exp} term and returns
+another function of type \mbox{\code{exp -> exp}}.
+Functions in Twelf are applied to terms by currying,
+where there is no distinction between
+functions $f$ and $f'$ when passing them two arguments
+if $f(x)$ returns another function $g(y)$ and
+\mbox{$f'(x, y)$ = $\underbrace{f(x)}_{g}(y)$}.
+Passing a function multiple arguments is transformed
+into a chain of function calls, where each function in
+the chain is applied to a single argument.
+So a function that returns another function
+can be thought of as a function that takes in multiple
+arguments.
+Conversely, if a function $f$ takes in multiple
+arguments $x_1, x_2, \ldots, x_n$ (where $n \geq 2$),
+then $f(t)$ can be thought of as a function $g$
+that is the same as $f$ except that occurrences of variable $x_1$
+in the body of $f$ are replaced with term $t$ in the body of $g$.
+
+\input{twelf_syntax_hoas.tex}

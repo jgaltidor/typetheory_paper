@@ -1,0 +1,152 @@
+\subsection{Base Case: (\texttt{T.4}, \texttt{D.3}) -- Addition Case 1}
+\[
+\cinfer[T.4]{+(num[$n_1$]; num[$n_2$]): num}
+  {\code{num[$n_1$]: num} & \code{num[$n_2$]: num}}
+\]
+
+\[
+\cinfer[D.3]{+(num[$n_1$]; num[$n_2$]) $\stepto$ num[$n_1 + n_2$]}{ }
+\]
+
+Using rule \texttt{T.1}:
+
+\[
+\cinfer[T.1]{num[$n_1 + n_2$]: num}{ }
+\qed
+\]
+
+\subsection{Inductive Case: (\texttt{T.4}, \texttt{D.1}) -- Addition Case 2}
+\[
+\cinfer[T.4]{+($e_1$; $e_2$): num}
+  {\code{$e_1$: num} & \code{$e_2$: num}}
+\qquad
+\cinfer[D.1]{+($e_1$; $e_2$) $\stepto$ +($e'_1$; $e_2$)}{e_1 \stepto e'_1}
+\]
+
+We assume preservation holds for subexpressions.
+Hence, by the inductive hypothesis,
+\texttt{$e_1$: num} and $e_1 \stepto e'_1$ implies
+\texttt{$e'_1$: num}.
+Rule \texttt{T.4} gives us:
+
+\[
+\cinfer[T.4]{+($e'_1$; $e_2$): num}
+  {\code{$e'_1$: num} & \code{$e_2$: num}}
+\qed
+\]
+
+\subsection{Inductive Case: (\texttt{T.4}, \texttt{D.2}) -- Addition Case 3}
+\[
+\cinfer[T.4]{+(num[$n_1$]; $e_2$): num}
+  {\code{num[$n_1$]: num} & \code{$e_2$: num}}
+\qquad
+\cinfer[D.2]{+(num[$n_1$]; $e_2$) $\stepto$ +(num[$n_1$]; $e'_2$)}{e_2 \stepto e'_2}
+\]
+
+Since \texttt{$e_2$: num} and $e_2 \stepto e'_2$,
+by the inductive hypothesis, \texttt{$e'_2$: num}.
+
+Rule \texttt{T.4} gives us:
+\[
+\cinfer[T.4]{+(num[$n_1$]; $e'_2$): num}
+  {\cinfer[T.1]{num[$n_1$]: num}{ }
+   &
+   \code{$e'_2$: num}}
+\qed
+\]
+
+\subsection{Concatenation Cases}
+The proof of the concatenation cases are analogous
+to the proofs of the addition cases by just replacing
+the \code{num}'s with \code{str}'s and the
+\code{+}'s with \code{\^{}}'s. $\qed$
+
+\subsection{Substitution Lemma}
+Before we can prove the next case for our preservation
+proof, we need the Substitution Lemma.
+Informally, this lemma states that 
+we can substitute subexpressions that are of the same type in
+an expression $e$ without changing the type of $e$.
+
+\begin{lem}
+\textbf{(Substitution)}
+If $y' : \tau$ and $y : \tau \vdash e : \tau'$,
+then $[y' / y]e : \tau'$.
+\end{lem}
+
+This lemma can be proved by a typical proof by
+induction on the structure of $e$, so we skip
+this proof for brevity.
+Now we return back to the proof of preservation.
+
+\subsection{Base Case: (\texttt{T.6}, \texttt{D.8}) -- Let Case 1}
+\[
+\cinfer[T.6]{let($x; e_1; e_2$): $\tau_2$}
+  {e_1: \tau_1
+   &
+   x : \tau_1 \vdash e_2: \tau_2
+  }
+\]
+\[
+\cinfer[D.8]{let($x$; $e_1$; $e_2$) $\stepto$ $[e_1 / x]e_2$}{e_1 \; \texttt{value}}
+\]
+
+Since $e_1: \tau_1$ and $x : \tau_1 \vdash e_2: \tau_2$,
+by substitution lemma, we have $[e_1 / x]e_2 : \tau_2$.
+$\qed$
+
+\subsection{Inductive Case: (\texttt{T.6}, \texttt{D.7}) -- Let Case 2}
+\[
+\cinfer[T.6]{let($x; e_1; e_2$): $\tau_2$}
+  {e_1: \tau_1
+   &
+   x : \tau_1 \vdash e_2: \tau_2
+  }
+\]
+\[
+\cinfer[D.7]{let($x$; $e_1$; $e_2$) $\stepto$ let($x$; $e'_1$; $e_2$)}{e_1 \stepto e'_1}
+\]
+
+Since \texttt{$e_1$: $\tau_1$} and $e_1 \stepto e'_1$,
+by the inductive hypothesis, \texttt{$e'_1$: $\tau_1$}.
+Using rule T.6:
+
+\[
+\cinfer[T.6]{let($x; e'_1; e_2$): $\tau_2$}
+  {e'_1: \tau_1
+   &
+   x : \tau_1 \vdash e_2: \tau_2
+  }
+\qed
+\]
+We have completed the proof of preservation for $\minilang$!
+
+\subsection{Final Remarks of Preservation Proof}
+We have proved preservation by showing that for
+each possible combination of the typing and evaluation
+judgments, preservation holds.
+How does one know when such a combination is possible?
+A combination is possible when there exists a unification
+of the \emph{patterns} of the two judgments in question.
+For example, notice in the preservation proof, there
+was no case for typing rule \texttt{T.4} and evaluation
+rule \texttt{D.4}.
+The conclusion of rule \texttt{T.4} contains the expression
+\code{+($e_1$; $e_2$)}.
+We can think of the pattern of the expression \code{+($e_1$; $e_2$)}
+as that same expression except the subexpressions or \emph{parameters}
+$e_1$ and $e_2$ are variables that can be replaced with
+any other expression.
+In order for (\texttt{T.4}, \texttt{D.4}) to be a possible
+combination case for the preservation proof, 
+there must exists a unifier for the pattern of \code{+($e_1$; $e_2$)}
+(conclusion expression of \texttt{T.4})
+and the pattern of \code{\^{}($e_1$; $e_2$)}
+(expression to the left of $\stepto$ in conclusion of \texttt{D.4}).
+Because the first symbols in each of those two expressions contain
+constant symbols (\code{+} and \code{\^{}}) that differ,
+no such unification exists; so the (\texttt{T.4}, \texttt{D.4})
+combination is not a possible case for the preservation proof.
+These remarks hint at the fact that these type of proofs can be
+automatically verified (e.g. by a proof assistant tool such as Twelf).
+

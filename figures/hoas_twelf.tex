@@ -1,0 +1,13 @@
+\begin{figure}[H]
+\begin{center}
+\begin{tabular}{l|l}
+\textit{Concrete Syntax} & \textit{Twelf HOAS} \\ \hline
+\code{let x = $\underbrace{\code{1 + 2}}_{e_1}$ in
+                $\underbrace{\code{x + 3}}_{e_2}$} &
+  \code{let $\underbrace{\code{(add 1 2)}}_{e_1}$
+    $\underbrace{\code{([x] add x 3)}}_{x.e_2}$}
+\end{tabular}
+\end{center}
+\caption{Example Higher-Order Abstract Syntax in Twelf}
+\label{fig:hoas} 
+\end{figure}
