@@ -124,7 +124,7 @@ We have completed the proof of preservation for $\minilang$!
 \subsection{Final Remarks of Preservation Proof}
 We have proved preservation by showing that for
 each possible combination of the typing and evaluation
-judgments, preservation holds.
+judgments, the preservation theorem holds.
 How does one know when such a combination is possible?
 A combination is possible when there exists a unification
 of the \emph{patterns} of the two judgments in question.
@@ -134,7 +134,7 @@ rule \texttt{D.4}.
 The conclusion of rule \texttt{T.4} contains the expression
 \code{+($e_1$; $e_2$)}.
 We can think of the pattern of the expression \code{+($e_1$; $e_2$)}
-as that same expression except the subexpressions or \emph{parameters}
+as that same expression except that the subexpressions or \emph{parameters}
 $e_1$ and $e_2$ are variables that can be replaced with
 any other expression.
 In order for (\texttt{T.4}, \texttt{D.4}) to be a possible

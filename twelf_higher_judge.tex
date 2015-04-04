@@ -13,14 +13,14 @@ the technique of higher-order abstract syntax discussed in
 Section~\ref{sec:twelf-hoas}, where syntactic terms with binders
 (e.g. the body of the \code{let} expression) are encoded as
 terms with holes or equivalently
-functions that take in terms as input and return terms.
+functions that take in other terms as input and return terms.
 Higher-order judgments are encoded with function types that have
 input types representing the hypothetical assumptions.
 
 Higher-order types representing hypothetical judgments involve
 \emph{pi-types}, denoted $\Pi x:S.T$.
 A pi-type is a special kind of function type.
-Terms of pi-types are \emph{pi-abstractions}.
+Terms of pi-types are called \emph{pi-abstractions}.
 First, a \emph{lambda-abstraction}, denoted ``$\lambda x:S.e$'',
 is a function term of a more conventional kind of function type,
  $\ftype{S}{T}$.
@@ -32,9 +32,10 @@ That is, the return type of a pi-type can vary according
 to the argument supplied.
 Hence, if $x$ is (syntactically) a part of $T$ in the pi-type
 $\Pi x:S.T$, then a term returned by a function of that
-pi-type is a term of a dependent type, since the return type
+pi-type is a term of a dependent type.
+In that case, the return type
 $T$ depends on the input term $x$.
-If $x$ is not a part of $T$ in $\Pi x:S.T$,
+If $x$ is not a part of type $T$ in $\Pi x:S.T$,
 then we abbreviate $\Pi x:S.T$ as $\ftype{S}{T}$,
 which also signals that a lambda-abstraction can be of
 this type, since the return type does not involve the argument.
@@ -43,20 +44,21 @@ as \code{\{x:S\} T}.
 
 A common Twelf coding convention is used in
 the return type of the \code{of/let} function term
-given on line 20 of the \code{typing.elf} file:
-``\mbox{\code{of (let E1 ([x] E2 x)) T2}}''.
-This code snippet could have been replaced with
-the shorter snippet:
+given on line 20 of file \code{typing.elf}:
+\[ \code{of (let E1 ([x] E2 x)) T2} \]
+This expression could have been replaced with
+the shorter expression:
 ``\mbox{\code{of (let E1 E2) T2}}''.
-The \code{E2} in the shorter snippet
-already denotes a term
+Twelf is able to infer that parameter \code{E2}
+in the shorter expression is a term
 of function type ``\mbox{\code{exp -> exp}}''
 (or equivalently, an \code{exp} with free variable
 occurrences).
 However, we applied a Twelf coding convention when
 we replaced \code{E2} with the equivalent function
 term \code{([x] E2 x)}.
-The wrapper function \code{([x] E2 x)} is used 
+The wrapper function or \emph{eta expansion}
+\code{([x] E2 x)} is used 
 just to make it easier to see that \code{E2} is
 a function term that takes in a single argument.
 
@@ -73,9 +75,9 @@ The type of \code{of/let}'s first argument is the pi-type:
 ``\mbox{\code{\{x: exp\} of x T1 -> of (E2 x) T2}}'';
 let $P$ denote this pi-type.
 A pi-abstraction of type $P$ takes in two arguments:
-The first is an \code{exp} term, which will be bound to
-\code{x}.
-The second is a term of type ``\mbox{\code{of x T1}}''
+The first is an \code{exp} term, which will be bound
+to variable \code{x}.
+The second argument is a term of type ``\mbox{\code{of x T1}}''
 representing a proof that \code{x} has type \code{T1}.
 Given two such terms,
 a pi-abstraction of type $P$ should return

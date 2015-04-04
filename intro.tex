@@ -11,19 +11,20 @@ Type theory ranges over several formal systems,
 but for this paper, type theory refers to
 the design, analysis and study of \emph{type systems}.
 Due to the wide variety of usage of the phrase
-``type system'', it lacks a standard definition,
-but according to a well-known text~\cite{Pierce:2002:TPL:509043}:
-``A type system is a tractable syntatic method for proving
-the absence of certain program behaviors by classifying phrases
-according to the kinds of values they compute.''
+``type system'', it lacks a standard definition.
+According to~\cite{typesystems-wikipedia}:
+``A type system is a collection of rules that assign a property
+called a type to the various language constructs-
+such as variables, expressions, functions or modules-
+that a computer program is composed of.''
 A type system formally defines many aspects of programming language
 such as in the following far-from-exhaustive list:
 \begin{enumerate}
 \item Which expressions are allowed in the language;
 specifically, what a well-formed or well-\emph{typed} program in the
 language is.
-Vaguely in plain english, well-typed programs are programs
-that entail certain properties.
+Vaguely, well-typed programs are programs that entail certain
+properties such as the absence of certain program errors.~\cite{Pierce:2002:TPL:509043}
 \item How program abstractions and components of
 large systems can be tied together.
 \item How expressions in the language are evaluated.
@@ -49,9 +50,9 @@ Rules defining the types of the \emph{terms} or expressions in
 the language are the \emph{static semantics}.
 Static semantics \emph{inductively} define
 a relation between expressions and types.
-\emph{Operational semantics} or dynamic semantics inductively
+\emph{Dynamic semantics} or operational semantics inductively
 define how to evaluate expressions in the language.
-Specifically, it defines
+Specifically, dynamic semantics define
 a transition system between expressions, where
 the \emph{values} that expressions evaluate to are
 the \emph{final states} of the system.
@@ -75,17 +76,16 @@ is similar, so we skip those cases for brevity.
 
 Proofs of language properties are important
 but long, tedious, and error prone
-because there are so many cases.
+because there are many cases to reason about.
 As a result,
 \emph{proof assistants} and \emph{automated theorem provers}
 have been developed for proving language theory.
 These software tools provide a language
-for writing proofs.
+for writing properties and proofs of properties.
 These tools can find mistakes in proofs
-and let one know if their proof is correct.
-We cover one such tool Twelf~\cite{Twelf} briefly
+and verify proof correctness.
+We cover one proof assistant, Twelf~\cite{Twelf},
 in Section~\ref{sec:twelf}.
-All of the Twelf code mentioned in this paper can
-be found in~\cite{minilang-twelf}
-(the \texttt{*.elf} files in the zip archive).
+All of the Twelf code presented in this paper can
+be found in~\cite{twelf-tutorial}.
 Section~\ref{sec:summary} concludes with a summary.

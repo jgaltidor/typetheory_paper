@@ -1,6 +1,6 @@
 \subsection{$\minilang$ Syntax in Twelf}
-The \code{syntax.elf} (from~\cite{minilang-twelf}) file contains
-the encoding of $\minilang$'s syntax in Twelf.
+File \code{syntax.elf} from~\cite{twelf-tutorial} contains
+the Twelf encoding of $\minilang$'s syntax.
 In Twelf, there are three \emph{levels} of objects.
 \emph{Kinds} are at the highest level.
 \emph{Types} are at the second level.
@@ -17,26 +17,27 @@ kinds, types, and terms.
 The kind \code{type} is a primitive kind defined
 in the Twelf language.
 More information on Twelf's type system can be
-found in~\cite{TwelfMetaTheory}.
+found in~\cite{HARPER:2007:MML:1296837.1296842}.
 
-We are now ready to examine the \code{syntax.elf} file.
+Next, we describe the statements in file \code{syntax.elf}
+using the terminology presented above.
 On line 4,
-``\code{exp : type}'' says that \code{exp} is a type
+``\code{exp :\ type}'' states that \code{exp} is a type
 of kind \code{type}.
-Similarly, line 7 defines \code{typ} is a type
+Similarly, line 7 defines \code{typ} to be type
 of kind \code{type},
-and line 10 defines \code{nat} is a type
+and line 10 defines \code{nat} to be a type
 of kind \code{type}.
 Line 11 defines the term \code{z} to be of
 type \code{nat}.
 Line 12 defines \code{s} to be a function term
 of the function type from \code{nat}'s to \code{nat}'s.
-Lines 11 and 12 encode the natural numbers
+Lines 11 and 12 encode (Peano) natural numbers
 \code{\{z, s(z), s(s(z)), s(s(s(z))), \ldots \}}.
 Lines 14--22 define strings to be a sequence of
 the \code{char}'s separated by commas.
 The functions \code{enat} and \code{estr}
-basically are just ways to say that natural
+are just ways to say that natural
 numbers and strings are also expressions.
 For example, \code{z} has type \code{nat},
 but \code{(enat z)} has type \code{exp}.
@@ -44,12 +45,12 @@ but \code{(enat z)} has type \code{exp}.
 subtyping.
 Then we could just tell Twelf \code{nat} $<:$ \code{exp},
 so Twelf would infer that \code{z} should also have type
-\code{exp} without having to wrap it as \code{enat z}.}
+\code{exp} without having to wrap it as \code{(enat z)}.}
 
 Lines 29--32 define the category of expressions
 with function types.
 For instance,
-``\code{add : exp -> exp -> exp.}''
+``\code{add :\ exp -> exp -> exp.}''
 says that \code{add} is a function that takes into
 two \code{exp}'s and returns an \code{exp}.
 This corresponds to the grammar rule
@@ -59,8 +60,8 @@ stating that the addition of two expressions is also an expression.
 of $\minilang$ in this paper and its encoding in Twelf.
 For example, line 32 defines an expression for representing the
 length of a string (\code{len($e$)}).
-Somethings were left out to try to keep this paper brief.}
-Similarily, ``\code{cat : exp -> exp -> exp.}''
+Some details were left out for brevity.}
+Similarily, ``\code{cat :\ exp -> exp -> exp.}''
 says that \code{cat} is a function that takes into
 two \code{exp}'s and returns an \code{exp};
 \code{cat} corresponds to the string concatenation of two

@@ -1,12 +1,13 @@
 \section{Type Preservation}
 \label{sec:preservation}
-Type preservation or simply preservation is an important property that
-programming languages should have to rule out some errors that could
-result in a programs with undefined behavior.
-It connects static semantics with the dynamic semantics.
-Informally, the Preservation Theorem states that evaluating an
-expression does not change its type.
-Formally:
+Type preservation or simply preservation is an important
+programming language property for eliminating certain errors
+that result in programs with undefined behavior.
+It establishes a key relationship between compile-time
+analysis (static semantics) and runtime behavior
+(dynamic semantics) of programs.
+The Preservation Theorem states that evaluating an
+expression does not change its type:
 
 \begin{thm}
 \label{thm:preservation}
@@ -44,6 +45,11 @@ of the program throughout its execution is well-defined.
 The remainder of this section proves preservation for $\minilang$.
 We prove preservation by induction by showing that for each possible 
 combination of the typing and evaluation judgments, preservation holds.
+The first proof case, for example, proves the preservation theorem for
+the case when typing rule \texttt{T.4} was applied to derive
+judgment $e : \tau$ and evaluation rule \texttt{D.3} was applied
+to derive judgment $e \stepto e'$.
+The conclusion to prove for each proof case is judgment $e' : \tau$.
 
 \input{preservation_proof.tex}
 

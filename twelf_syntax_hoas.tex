@@ -28,27 +28,32 @@ $o(t_1, t_2, \ldots, t_n)$.
 In HOAS, each $t_i$ has the form
 $x_1, x_2, \ldots x_k.t$, where $t$ is an AST,
 each $x_j$ is a variable bound in $t$, and $k \geq 0$;
-if $k = 0$, then $t_i$ does not introduce new variables in $t$.
+if $k = 0$, then $t_i$ does not introduce new variables in
+the body $t$.
 One advantage of knowing each variable introduced by an AST
 is that we can rename variables without changing the meaning
-the AST.
+of the AST.
 
-Now consider the \texttt{let} expression in $\minilang$ and
+Consider the \texttt{let} expression in $\minilang$ and
 its representation in FOAS:
 \[\code{let($x$; $e_1$; $e_2$)}\]
-Recall that this \code{let} expression is evaluated by
+Recall that a \code{let} expression is evaluated by
 binding the variable $x$ to the value of $e_1$ in $e_2$.
-Hence, the \code{let} expression can be represented by the
+Hence, a \code{let} expression can be modeled with the
 following HOAS:
 \[\code{let($e_1$; $x.e_2$)}\]
-The ``$x.e_2$'' captures that $x$ is bound in $e_2$.
+The ``$x.e_2$'' captures that variable $x$ is bound in
+expression $e_2$.
 HOAS lets us know where variables are being bound.
 This lets us easily determine that the following two expressions
 are equivalent, since they only differ in variable names:
 \[ \code{let(3; $x$.+($x$; 4))} \equiv \code{let(3; $y$.+($y$; 4))}\]
 
-Our Twelf encoding of the \code{let} expression encodes its
-HOAS version, which can be seen with the type of its
+Our Twelf encoding of the \code{let} expression is on line 36
+of file \code{syntax.elf}:
+\[ \code{let :\ exp -> (exp -> exp) -> exp.} \]
+This line encodes the HOAS version of \code{let},
+which can be seen with the type of its
 second argument: \code{(exp -> exp)}.
 Usually, each operator such as \code{add} and \code{cat}
 only took in \code{exp} arguments, where the arguments
@@ -71,8 +76,9 @@ or \emph{lambda-abstraction} ``$\lambda x.e_2$'',
 where $e_2$ is the body of the function and $x$ is a variable
 that is bound to a term in $e_2$.
 A term $t$ of type \code{(exp -> exp)} will be a term of type
-\code{exp} that contains occurrences of a free variable that
-will be replaced with another term when $t$ is applied to it.
+\code{exp} that contains occurrences of a free variable $x$.
+Free variable $x$ will be replaced with another term $t'$ in
+the body of $t$ when term/function $t$ is applied to $t'$.
 Twelf's syntax for the function ``$\lambda x.e$'' is
 ``\code{[$x$] $e$}''.
 Figure~\ref{fig:hoas} gives a concrete example of a
