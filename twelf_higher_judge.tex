@@ -1,25 +1,40 @@
-\subsubsection{Higher-Order Judgments in Twelf}
-Inference rules involving typing contexts
-such as rule \code{T.6} are \emph{hypothetical judgments}~\cite{TwelfHypothetical}
-or judgments that make use of hypothetical assumptions.
-Hypothetical judgments can be encoded in Twelf using
-\emph{higher-order judgments}~\cite{TwelfHigherOrder}
-or judgments that contain other judgments.
-Higher-order judgments are encoded in Twelf as \emph{higher-order types}.
-Higher-order types are functions types, where one of their input types
-is also a function type.
-Encoding higher-order judgments as higher-order types is similar to
+\subsubsection{Hypothetical Judgments in Twelf}
+Inference rules such as rule \code{T.6} involve the use of
+context-sensitive propositions or \emph{hypothetical judgments}~\cite{TwelfHypothetical}.
+Hypothetical judgments are judgments that make use of hypothetical assumptions.
+For example, the second premise of rule \code{T.6},
+``\mbox{$\Gamma , x : \tau_1 \vdash e_2 : \tau_2$}'',
+is a hypothetical judgment.
+In order to prove that this proposition holds,
+judgment $e_2 : \tau_2$ needs to be proved;
+when proving $e_2 : \tau_2$, however, we can assume that
+the hypothetical assumption, ``$\Gamma , x : \tau_1$''
+also holds.
+Specifically, judgment $e_2 : \tau_2$ needs to be proved in a context
+where we assume that variable $x$ has type $\tau_1$ and we assume that
+the other typing assumptions in $\Gamma$ also hold.
+
+Hypothetical judgments are modeled in Twelf as function types.
+Assumptions of a hypothetical judgment are the input types of
+a function.
+Encoding hypothetical judgments as function types is similar to
 the technique of higher-order abstract syntax discussed in
 Section~\ref{sec:twelf-hoas}, where syntactic terms with binders
 (e.g. the body of the \code{let} expression) are encoded as
 terms with holes or equivalently
-functions that take in other terms as input and return terms.
-Higher-order judgments are encoded with function types that have
-input types representing the hypothetical assumptions.
+functions that take in other terms as inputs and return terms
+as outputs.
+In the case of hypothetical judgments, assumptions are the holes
+in the terms/proofs of those judgments.
+A proof of hypothetical judgments takes in proofs of hypothetical
+assumptions as inputs and returns a proof as output.
+Taking in hypothetical assumptions as inputs simulates extending
+the context with additional assumptions.
+The assumptions/inputs can be used in the body of a function
+to derive the desired output/conclusion.
 
-Higher-order types representing hypothetical judgments involve
-\emph{pi-types}, denoted $\Pi x:S.T$.
-A pi-type is a special kind of function type.
+Hypothetical judgments are encoded with a generalization of a
+function type called a \emph{pi-type}, denoted $\Pi x:S.T$.
 Terms of pi-types are called \emph{pi-abstractions}.
 First, a \emph{lambda-abstraction}, denoted ``$\lambda x:S.e$'',
 is a function term of a more conventional kind of function type,
@@ -30,14 +45,13 @@ However, a pi-abstraction of pi-type $\Pi x:S.T$ would map
 a term $s$ of type $S$ to a term of type $[s / x]T$.
 That is, the return type of a pi-type can vary according
 to the argument supplied.
-Hence, if $x$ is (syntactically) a part of $T$ in the pi-type
-$\Pi x:S.T$, then a term returned by a function of that
-pi-type is a term of a dependent type.
-In that case, the return type
-$T$ depends on the input term $x$.
+Hence, if $x$ is (syntactically) a part of return type $T$
+in the pi-type $\Pi x:S.T$, then a term returned by a function
+of that pi-type is a term of a dependent type.
+In that case, return type $T$ depends on the input term $x$.
 If $x$ is not a part of type $T$ in $\Pi x:S.T$,
-then we abbreviate $\Pi x:S.T$ as $\ftype{S}{T}$,
-which also signals that a lambda-abstraction can be of
+then we abbreviate $\Pi x:S.T$ as $\ftype{S}{T}$.
+This signals that a lambda-abstraction can be of
 this type, since the return type does not involve the argument.
 Lastly, the pi-type $\Pi x:S.T$ is represented in Twelf syntax
 as \code{\{x:S\} T}.
@@ -49,21 +63,27 @@ given on line 20 of file \code{typing.elf}:
 This expression could have been replaced with
 the shorter expression:
 ``\mbox{\code{of (let E1 E2) T2}}''.
-Twelf is able to infer that parameter \code{E2}
-in the shorter expression is a term
-of function type ``\mbox{\code{exp -> exp}}''
+Twelf is able to infer that the type of variable \code{E2}
+in the shorter expression is
+function type ``\mbox{\code{exp -> exp}}''
 (or equivalently, an \code{exp} with free variable
 occurrences).
 However, we applied a Twelf coding convention when
 we replaced \code{E2} with the equivalent function
 term \code{([x] E2 x)}.
-The wrapper function or \emph{eta expansion}
-\code{([x] E2 x)} is used 
+The wrapper function or \emph{eta-expansion}
+of \code{E2}, \code{([x] E2 x)}, is used 
 just to make it easier to see that \code{E2} is
 a function term that takes in a single argument.
 
 The \code{of/let} term represents rule \code{T.6}
-and is of a higher-order type:
+and is of a \emph{higher-order}\footnote{A higher-order function type is a function
+type where an input type is also
+a function type.
+Similarly, A higher-order function term such as
+\code{of/let} is a
+function that takes in a function as input.}
+function type:
 \begin{verbatim}
 of/let :  ({x: exp} of x T1 -> of (E2 x) T2) ->
           of E1 T1 ->
