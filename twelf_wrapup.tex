@@ -133,7 +133,7 @@ arguments of function \code{of/add}.
 
 Twelf could not derive the proof of the preservation theorem,
 but it could let you know if your proof was incorrect.
-For example, lines 13--17 in \code{preservation.elf}
+For example, lines 23--27 in \code{preservation.elf}
 prove preservation for the typing-evaluation rule combination
 (T.4, D.1).
 If those lines were removed, Twelf would return the following
@@ -152,13 +152,13 @@ for the case when we could derive ``\code{of (add E1 E2) num}''
 and ``\code{step (add E1 E2) (add E3 E2))}''
 (\code{+($e_1$; $e_2$)} $\stepto$ \code{+($e_3$; $e_2$)}).
 In this case, judgment ``\code{step (add E1 E2) (add E3 E2))}''
-was derived by applying function/inference rule \code{step/add1}
+was derived by applying function (inference rule) \code{step/add1}
 to a derivation (\code{S1}) of type ``\code{step E1 E3}''.
 To prove preservation for this case,
-we would need to produce a derivation of \code{of (add E3 E2) num}.
+we would need to produce a derivation of type ``\code{of (add E3 E2) num}''.
 This would show that performing an evaluation step on the left
 summand of a well-typed \code{add} expression would not change
-the type of resulting \code{add} expression.
+the type of the resulting \code{add} expression.
 
 In summary, Twelf can aid with deriving simple judgments and checking
 that proofs of language properties are correct.
