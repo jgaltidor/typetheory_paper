@@ -26,7 +26,7 @@ Nested inputs:
 - `preservation.tex` → `preservation_proof.tex`
 - Figures live in `figures/` and are `\input` from the section that uses them: grammar and example expressions from `minilang_grammar.tex`; type rules, derivation, and failure from `static.tex`; eval rules from `dynamic.tex`; the HOAS Twelf figure from `twelf_syntax_hoas.tex`.
 
-Preamble files actually used: `my_macros.tex` (packages and most project macros), `math-cmds.sty`, `syn-defns07.tex`, and the bundled `mathpartir.sty`. `hyperref` is loaded in `type_theory.tex` after every other package; keep it last, since packages loaded after it break its figure and footnote link targets (duplicate `figure.n` / missing `Hfootnote.n` pdfTeX warnings). `macros-lncs.tex`, `grammar.tex`, and `obey.tex` (top level, not `figures/grammar.tex`) are leftovers and are **not** included by the root file.
+Preamble files actually used: `my_macros.tex` (packages and most project macros), `math-cmds.sty`, `syn-defns07.tex`, and the bundled `mathpartir.sty`. `hyperref` is loaded in `type_theory.tex` after every other package; keep it last, since packages loaded after it break its figure and footnote link targets (duplicate `figure.n` / missing `Hfootnote.n` pdfTeX warnings). The preamble also loads `\usepackage[T1]{fontenc}` and `lmodern` (with the default OT1 encoding, `\{`/`\}` inside `\code` fall back to math-font braces and an `OMS/cmtt` font warning), and `xurl` just before `hyperref` (lets bibliography URLs break anywhere, avoiding underfull lines). `macros-lncs.tex`, `grammar.tex`, and `obey.tex` (top level, not `figures/grammar.tex`) are leftovers and are **not** included by the root file.
 
 ## Conventions (from `my_macros.tex`)
 
@@ -34,4 +34,12 @@ Preamble files actually used: `my_macros.tex` (packages and most project macros)
 - `\infer` (from the `proof` package) is **redefined** so the rule label is typeset via `\code`. `\cinfer[label]{conclusion}{premises}` wraps the conclusion in `\code` and is the usual way to write inference rules in the figures. Rules are labeled `T.n` (typing) and `D.n` (dynamic semantics); proofs refer to them by these labels.
 - `\stepto`/`\stepsto` (`\mapsto`, `\mapsto^*`) are the transition relations. `\judge`, `\ftype`, `\aeq`, and `\caseitem` (for proof case analyses) are defined there too. Use these macros instead of writing the notation by hand.
 - Sections and figures use `\label{sec:...}` / `\label{fig:...}`.
-- Twelf code and output quoted in the `twelf*.tex` files must match the twelf_tutorial repo (github.com/jgaltidor/twelf_tutorial), including the line numbers cited. Regenerate quoted output with that repo's Docker image (`./check.sh`), not by hand.
+
+## Twelf code in the paper
+
+The `twelf*.tex` files quote and cite code from the twelf_tutorial repo (github.com/jgaltidor/twelf_tutorial; locally `~/Documents/mywork/newprjs/twelf_tutorial`). The citations refer to its tag `v1.0`, which `refs.bib` (`twelf-tutorial`) and the README link to.
+
+- Cited line numbers (find them with `grep -n -i 'line' twelf*.tex`): `syntax.elf` 4, 7, 10–12, 15–27, 26, 34–37, 39–40, 43–44; `typing.elf` 5, 8, 21, 25–26; `preservation.elf` 23–27; `progress.elf` 11–12, 153–154. After any change to those files, recheck every cited line against the code.
+- Quoted Twelf output must come from Twelf itself, never be written by hand. Run it in twelf_tutorial's Docker image (`./check.sh` prints the full output). Current Twelf prints derivations with implicit arguments omitted (`D2 = of/add of/nat of/nat`), so the paper shows the fully applied forms separately.
+- The coverage error in `twelf_wrapup.tex` was produced by deleting lines 23–27 of `preservation.elf` in a scratch copy and running `./check.sh`; Twelf reports it at the `%total` line (98.8–98.11 after the deletion).
+- If the `.elf` files change in a way that moves cited lines or quoted code: update the paper, tag the new twelf_tutorial version, point `refs.bib` and the README at the new tag, and publish a new paper release (see README, "Releasing").

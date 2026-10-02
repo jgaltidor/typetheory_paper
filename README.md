@@ -34,6 +34,21 @@ docker run --rm -v "$PWD":/workdir typetheory-tex make clean
 
 `.devcontainer/` opens the same image in VS Code, with LaTeX Workshop set to build with `make`. It also installs Claude Code (the VS Code extension and the `claude` CLI), whose login and settings persist in a Docker volume.
 
+## Releasing
+
+The PDF is published as a GitHub Release asset, not committed (build outputs are gitignored). To publish a new version:
+
+```sh
+git tag -a v1.1 -m "Type theory tutorial paper v1.1"
+git push origin v1.1
+git clone --branch v1.1 . /tmp/paper-release      # build from a clean checkout of the tag
+docker run --rm -v /tmp/paper-release:/workdir typetheory-tex
+cp /tmp/paper-release/type_theory.pdf /tmp/typetheory_paper.pdf
+gh release create v1.1 /tmp/typetheory_paper.pdf --title "Type theory tutorial paper v1.1" --notes "..."
+```
+
+Keep the asset named `typetheory_paper.pdf`: the README above and the [twelf_tutorial](https://github.com/jgaltidor/twelf_tutorial) README link to `releases/latest/download/typetheory_paper.pdf`, which always serves the newest release.
+
 ## Layout
 
 - `type_theory.tex` is the root document. Each section is a separate `.tex` file pulled in with `\input`.
