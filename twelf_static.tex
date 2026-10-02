@@ -9,14 +9,14 @@ It defines \code{of} to be a function kind or
 Type families are functions that return types instead of terms.
 The ``\code{of}'' relation can be thought of as (1) a function
 that returns types when applied to \code{exp} and \code{typ} terms
-or (2) as a set of types \emph{indexed} by \code{exp} and \code{typ} terms.
+or (2) a set of types \emph{indexed} by \code{exp} and \code{typ} terms.
 
 Judgments are represented in Twelf as
 \emph{dependent types}~\cite{TwelfTypeJudge,advancetypes_ch02,Twelf-DependentTypes}.
 The \code{of} type family returns dependent types of kind \code{type}.
 Hence, function \code{of} returns judgments.
 % Introduce dependent types
-Dependent types are types that include terms as one of its components.
+Dependent types are types that include terms as one of their components.
 Example dependent types come from the set of $n$-dimensional vectors
 of real numbers denoted \code{Vec($n$)}.
 For instance, suppose \code{3} is a term representing the number $3$,
@@ -82,9 +82,9 @@ However, these arguments are \emph{implicit} arguments and
 typically do not need to be mentioned because they can be inferred
 from the last two \emph{explicit} arguments of dependent types.
 For example, since the dependent type ``\mbox{\code{of E1 num}}'' includes
-\code{E1} as one if its components, Twelf can extract \code{E1}
+\code{E1} as one of its components, Twelf can extract \code{E1}
 from this type.
-For more information on implicit and explicit arguments
+For more information on implicit and explicit arguments,
 see~\cite{Twelf-Implicit}.}
 Variables \code{E1} and \code{E2} are bound to terms of type \code{exp}.
 Dependent type ``\mbox{\code{of E1 num}}'' represents the judgment

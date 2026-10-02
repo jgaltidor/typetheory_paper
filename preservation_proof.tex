@@ -25,7 +25,7 @@ Using rule \texttt{T.1}:
 
 We assume preservation holds for subexpressions.
 Hence, by the inductive hypothesis,
-\texttt{$e_1$: num} and $e_1 \stepto e'_1$ implies
+\texttt{$e_1$: num} and $e_1 \stepto e'_1$ imply
 \texttt{$e'_1$: num}.
 Rule \texttt{T.4} gives us:
 
@@ -56,7 +56,7 @@ Rule \texttt{T.4} gives us:
 \]
 
 \subsection{Concatenation Cases}
-The proof of the concatenation cases are analogous
+The proofs of the concatenation cases are analogous
 to the proofs of the addition cases by just replacing
 the \code{num}'s with \code{str}'s and the
 \code{+}'s with \code{\^{}}'s. $\qed$
@@ -77,7 +77,7 @@ then $[y' / y]e : \tau'$.
 This lemma can be proved by a typical proof by
 induction on the structure of $e$, so we skip
 this proof for brevity.
-Now we return back to the proof of preservation.
+Now we return to the proof of preservation.
 
 \subsection{Base Case: (\texttt{T.6}, \texttt{D.8}) -- Let Case 1}
 \[
@@ -92,7 +92,7 @@ Now we return back to the proof of preservation.
 \]
 
 Since $e_1: \tau_1$ and $x : \tau_1 \vdash e_2: \tau_2$,
-by substitution lemma, we have $[e_1 / x]e_2 : \tau_2$.
+by the Substitution Lemma, we have $[e_1 / x]e_2 : \tau_2$.
 $\qed$
 
 \subsection{Inductive Case: (\texttt{T.6}, \texttt{D.7}) -- Let Case 2}
@@ -109,7 +109,7 @@ $\qed$
 
 Since \texttt{$e_1$: $\tau_1$} and $e_1 \stepto e'_1$,
 by the inductive hypothesis, \texttt{$e'_1$: $\tau_1$}.
-Using rule T.6:
+Using rule \texttt{T.6}:
 
 \[
 \cinfer[T.6]{let($x; e'_1; e_2$): $\tau_2$}
@@ -139,7 +139,7 @@ $e_1$ and $e_2$ are variables that can be replaced with
 any other expression.
 In order for (\texttt{T.4}, \texttt{D.4}) to be a possible
 combination case for the preservation proof, 
-there must exists a unifier for the pattern of \code{+($e_1$; $e_2$)}
+there must exist a unifier for the pattern of \code{+($e_1$; $e_2$)}
 (conclusion expression of \texttt{T.4})
 and the pattern of \code{\^{}($e_1$; $e_2$)}
 (expression to the left of $\stepto$ in conclusion of \texttt{D.4}).
@@ -147,6 +147,6 @@ Because the first symbols in each of those two expressions contain
 constant symbols (\code{+} and \code{\^{}}) that differ,
 no such unification exists; so the (\texttt{T.4}, \texttt{D.4})
 combination is not a possible case for the preservation proof.
-These remarks hint at the fact that these type of proofs can be
-automatically verified (e.g. by a proof assistant tool such as Twelf).
+These remarks hint at the fact that this type of proof can be
+automatically verified (e.g., by a proof assistant tool such as Twelf).
 

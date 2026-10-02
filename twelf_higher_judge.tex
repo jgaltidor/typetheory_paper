@@ -8,7 +8,7 @@ is a hypothetical judgment.
 In order to prove that this proposition holds,
 judgment $e_2 : \tau_2$ needs to be proved;
 when proving $e_2 : \tau_2$, however, we can assume that
-the hypothetical assumption, ``$\Gamma , x : \tau_1$''
+the hypothetical assumption, ``$\Gamma , x : \tau_1$'',
 also holds.
 Specifically, judgment $e_2 : \tau_2$ needs to be proved in a context
 where we assume that variable $x$ has type $\tau_1$ and we assume that
@@ -20,13 +20,13 @@ a function.
 Encoding hypothetical judgments as function types is similar to
 the technique of higher-order abstract syntax discussed in
 Section~\ref{sec:twelf-hoas}, where syntactic terms with binders
-(e.g. the body of the \code{let} expression) are encoded as
+(e.g., the body of the \code{let} expression) are encoded as
 terms with holes or equivalently
 functions that take in other terms as inputs and return terms
 as outputs.
 In the case of hypothetical judgments, assumptions are the holes
 in the terms/proofs of those judgments.
-A proof of hypothetical judgments takes in proofs of hypothetical
+A proof of a hypothetical judgment takes in proofs of hypothetical
 assumptions as inputs and returns a proof as output.
 Taking in hypothetical assumptions as inputs simulates extending
 the context with additional assumptions.
@@ -80,7 +80,7 @@ The \code{of/let} term represents rule \code{T.6}
 and is of a \emph{higher-order}\footnote{A higher-order function type is a function
 type where an input type is also
 a function type.
-Similarly, A higher-order function term such as
+Similarly, a higher-order function term such as
 \code{of/let} is a
 function that takes in a function as input.}
 function type:
@@ -107,7 +107,7 @@ filled in by the \code{exp} term that is bound to \code{x}.
 
 The pi-type $P$ represents the second premise
 ``\mbox{$\Gamma , x : \tau_1 \vdash e_2 : \tau_2$}''
-of rule ~\code{T.6}.
+of rule~\code{T.6}.
 Passing a derivation \code{dx} of type ``\mbox{\code{of x T1}}''
 to a pi-abstraction simulates extending the typing context
 with the assumption ``\mbox{$x : \tau_1$}''.

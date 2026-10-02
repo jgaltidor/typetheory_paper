@@ -14,26 +14,24 @@ Due to the wide variety of usage of the phrase
 ``type system'', it lacks a standard definition.
 According to~\cite{typesystems-wikipedia}:
 ``A type system is a collection of rules that assign a property
-called a type to the various language constructs-
-such as variables, expressions, functions or modules-
-that a computer program is composed of.''
-A type system formally defines many aspects of programming language
+called a type to the various language constructs---such as variables, expressions, functions or modules---that a computer program is composed of.''
+A type system formally defines many aspects of a programming language
 such as in the following far-from-exhaustive list:
 \begin{enumerate}
 \item Which expressions are allowed in the language;
 specifically, what a well-formed or well-\emph{typed} program in the
 language is.
 Vaguely, well-typed programs are programs that entail certain
-properties such as the absence of certain program errors.~\cite{Pierce:2002:TPL:509043}
+properties such as the absence of certain program errors~\cite{Pierce:2002:TPL:509043}.
 \item How program abstractions and components of
 large systems can be tied together.
 \item How expressions in the language are evaluated.
-What is the order of evaluation.
+What is the order of evaluation?
 Are expressions evaluated eagerly
-(every expression in program is computed immediately)
+(every expression in a program is computed immediately)
 or lazily
 (expressions are not evaluated until the program
-requires their values).
+requires their values)?
 \end{enumerate}
 Type systems model complex language features
 and enable one to prove properties about languages.
@@ -59,7 +57,7 @@ the \emph{final states} of the system.
 
 Type systems are best explained with an example.
 The following sections define a programming language
-we coin as $\minilang$.
+that we call $\minilang$.
 The \emph{grammar} of $\minilang$ is defined in
 Section~\ref{sec:grammar}.
 Its static and dynamic semantics are
@@ -67,10 +65,10 @@ given in Sections~\ref{sec:static}
 and~\ref{sec:dynamic}, respectively.
 We prove an important property, \emph{type preservation},
 for $\minilang$ in Section~\ref{sec:preservation}.
-We show to prove another important property,
+We show how to prove another important property,
 \emph{progress}, by proving it
 for one type of expression in $\minilang$
-in~\ref{sec:progress}.
+in Section~\ref{sec:progress}.
 The proof of progress for all other expressions
 is similar, so we skip those cases for brevity.
 

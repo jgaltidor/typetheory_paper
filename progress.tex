@@ -5,15 +5,15 @@ inputting them to the transition system defined
 by the dynamic semantics given in Figure~\ref{fig:eval_rules}.
 Each transition in the system \emph{reduces} an expression or
 brings the expression closer to a value.
-However, not every irreducible expression is a value such as
+However, some irreducible expressions are not values, such as
 the following:
 
 \texttt{+(num[5]; str[abc])} $\stepto \times$
 
 An expression $e$ that is not a value, but for which there does
-\emph{not} exists an $e'$ such that $e \stepto e'$ is said to be \emph{stuck}.
+\emph{not} exist an $e'$ such that $e \stepto e'$ is said to be \emph{stuck}.
 It should be the case that any stuck expression is ill-typed.
-Moreover, well-typed expressions do not get stuck.
+Equivalently, well-typed expressions do not get stuck.
 This property is expressed formally by the progress theorem.
 
 \begin{thm}
@@ -24,14 +24,14 @@ that $e \stepto e'$.
 \end{thm}
 
 Progress is proved by induction on the typing rules.
-Again there a lot of cases, so for brevity
+Again, there are a lot of cases, so for brevity
 we show just one case to get an idea of
 how to prove this theorem.
 
 \subsection{Inductive Case: (\texttt{T.4}) -- Addition Case}
 
 \[
-\cinfer[T.4]{+($e_1$, $e_2$): num}
+\cinfer[T.4]{+($e_1$; $e_2$): num}
   {\code{$e_1$: num} & \code{$e_2$: num}}
 \]
 By the inductive hypothesis,

@@ -1,10 +1,10 @@
-\subsection{Twelf Theorems, Proofs, and Wrapup}
+\subsection{Twelf Theorems, Proofs, and Wrap-up}
 Explaining all of the details of the Twelf code is
 beyond the scope of this paper.
 So in this section, we conclude the Twelf discussion with a brief
 overview of the remaining files of the Twelf $\minilang$ encoding,
-how theorems are specified in Twelf, presenting example Twelf proofs,
-and explaining how Twelf helps with proving theory about languages.
+how theorems are specified in Twelf, example Twelf proofs,
+and how Twelf helps with proving theory about languages.
 
 
 \subsubsection{Twelf Project Files}
@@ -43,7 +43,7 @@ In Twelf, function types can be written using either
 arrows pointing to the left or pointing to the right.}
 
 \code{not\_stuck/val: not\_stuck E <- value E.} states that if
-\code{E} is value, then \code{E} is not stuck.
+\code{E} is a value, then \code{E} is not stuck.
 
 \code{not\_stuck/step: not\_stuck E <- step E E'.} states that if
 there exists an \code{E'} such that \code{step E E'},
@@ -68,10 +68,10 @@ example judgments that can be derived automatically by Twelf.
 %query * 1 D2 : of (add (enat (s z)) (enat z)) num.
 \end{verbatim}
 
-The first query ask Twelf to derive that the type of
-the \code{str[abca]} is \code{str},
+The first query asks Twelf to derive that the type of
+\code{str[abca]} is \code{str},
 and save that derivation in \code{D1}.
-The second query ask Twelf to derive that the
+The second query asks Twelf to derive that the
 type of \code{+(num[1]; num[0])} is \code{num},
 and save that derivation in \code{D2}.
 
@@ -102,7 +102,7 @@ For the first query, it finds the derivation
 D1 = of/str (, a (, b (, c (, a eps)))).
 \end{verbatim}
 It says that applying function \code{of/str}
-to term \code{str}
+to the string term
 \code{(, a (, b (, c (, a eps))))} returns a
 term/derivation of type/judgment
 ``\code{of (estr (a , b , c , a , eps)) string}''.
@@ -112,11 +112,11 @@ it finds the following derivation:
 \begin{verbatim}
 D2 = of/add (enat z) (enat (s z)) (of/nat z) (of/nat (s z)).
 \end{verbatim}
-Derivation \code{D2} is described as follow:
+Derivation \code{D2} is described as follows:
 \begin{enumerate}
 \item Apply function \code{of/nat} to term \code{z}
 to return a term/derivation of ``\code{of (enat z) num}''.
-\item Apply function \code{of/nat} to term ``\code{enat (s z)}''
+\item Apply function \code{of/nat} to term ``\code{s z}''
 to return a term/derivation of ``\code{of (enat (s z)) num}''.
 \item Apply \code{of/add} to the derivations
 of ``\code{of (enat z) num}'' and ``\code{of (enat (s z)) num}''
@@ -160,7 +160,7 @@ This would show that performing an evaluation step on the left
 summand of a well-typed \code{add} expression would not change
 the type of the resulting \code{add} expression.
 
-In summary, Twelf can aid with deriving simple judgments and checking
+In summary, Twelf can aid in deriving simple judgments and checking
 that proofs of language properties are correct.
 If a proof is not correct, Twelf will let us know that the proof
 contains a mistake and provide an error message to help ``debug'' the proof.

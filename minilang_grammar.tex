@@ -5,13 +5,13 @@ a language of numbers and strings.
 The following notation may seem unusual
 because most programmers write programs in the
 \emph{concrete syntax} of a language.
-The concrete syntax of language specifies how
+The concrete syntax of a language specifies how
 humans write programs in the language.
 Type systems are often written over the
 \emph{abstract syntax} of the language to
 reflect that expressions in the language are
 \emph{abstract syntax trees} (ASTs)
-or more simply called \emph{terms}.
+or, more simply, \emph{terms}.
 ASTs are mathematical-like expressions
 that represent a composition of \emph{nodes}.
 Each AST has the form: \\*
@@ -54,13 +54,14 @@ Expressions can be the following:
 where $n$ is a sequence of digits.
 \item Strings: \code{str[$s$]},
 where $s$ is a sequence of characters.
-\item Variable names: $x$
-\item The sum of two subexpressions: \code{+($e_1$, $e_2$)}.
+\item Variable names: $x$.
+\item The sum of two subexpressions: \code{+($e_1$; $e_2$)}.
 \item The string concatenation of two subexpressions:
-\code{\^{}($e_1$, $e_2$)}.
-\item A let expression where the subexpression
+\code{\^{}($e_1$; $e_2$)}.
+\item Let expressions: \code{let($x$; $e_1$; $e_2$)},
+where the subexpression
 $e_2$ is evaluated in a context that has variable
-$x$ bound to the value of $e_1$. 
+$x$ bound to the value of $e_1$.
 \end{enumerate}
 
 Example expressions are shown in Figure~\ref{fig:ex_expressions}.

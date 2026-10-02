@@ -7,7 +7,7 @@ the language specification.
 For $\minilang$ we will formally define the
 addition of two numbers
 and the concatenation of two strings.
-On the contrary, we will not define the
+In contrast, we will not define the
 addition between a number and a string and
 likewise for concatenation.
 We say such expressions are \emph{ill-defined}
@@ -18,37 +18,37 @@ the following two expressions are ill-typed
 even though they are in the grammar of $\minilang$.
 
 \begin{enumerate}
-\item \code{+(num[4], str[doe])}
-\item \code{let(daysPerWeek, str[seven], +(num[1], daysPerWeek))}
+\item \code{+(num[4]; str[doe])}
+\item \code{let(daysPerWeek; str[seven]; +(num[1]; daysPerWeek))}
 \end{enumerate}
 
 Filtering out ill-typed ASTs is not always possible with only
 the grammar specification such as the second AST above.
-The reason is because the grammar is \emph{context-free},
+The reason is that the grammar is \emph{context-free},
 and determining that the second AST is ill-typed requires
 a \emph{context-sensitive} analysis.
 Programming languages typically specify their syntax with
-context-free grammar because they are conceptually and
+context-free grammars because they are conceptually and
 computationally easier to parse than context-sensitive
 grammars.
 The reason why is beyond the scope of this paper.
 
 This filtering process is performed by \emph{type checking}
 the AST nodes.
-Type checking tries to derive a type to each AST node
+Type checking tries to assign a type to each AST node
 using the inference rules of the \emph{static semantics}
 of a language.
 If no such type can be assigned to a node, the node is
 not considered to be well-typed (well-formed) and compilers would flag
 it as an error in the program.
 
-Inferences rules have the following form:
+Inference rules have the following form:
 \[
 \infer[Rule Label]{\underbrace{J}_{conclusion}}
       {\overbrace{J_1 \quad J_2 \quad \ldots \quad J_n}^{premises}}
 \]
 Each $J_i$ is a proposition or \emph{judgment}.
-If all of the judgments of the premise ($J_i$'s) are true,
+If all of the judgments of the premises ($J_i$'s) are true,
 then the conclusion judgment $J$ is true.
 Rules with no premises are axioms because the conclusion
 is true under any conditions.

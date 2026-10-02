@@ -14,7 +14,7 @@ single string.
 
 
 The inductive definition of the transition relation for
-evaluation expressions is shown in Figure~\ref{fig:eval_rules}.
+evaluating expressions is shown in Figure~\ref{fig:eval_rules}.
 Rules \code{D.1-3} define how to evaluate additions.
 Rule \code{D.3} says that the addition of two single
 numbers \emph{steps to} (evaluation step) a number that is the
@@ -28,8 +28,8 @@ rule \code{D.2} allows us to evaluate the right subexpression.
 Rules \code{D.4-6} are analogous to rules \code{D.1-3}
 for string concatenation.
 Rule \code{D.7} says we evaluate the expression ($e_1$) that
-will be bound to variable of the \code{let} expression.
-Once $e_1$ becomes a value, then rule \code{D.8} says to
+will be bound to the variable of the \code{let} expression.
+Once $e_1$ becomes a value, then rule \code{D.8} says that
 we can evaluate the body ($e_2$) of the \code{let} expression
 by replacing the variable with that value.
 

@@ -1,4 +1,4 @@
-\subsubsection{Representing terms w/ variables in Twelf
+\subsubsection{Representing terms with variables in Twelf
 using Higher-Order Abstract Syntax}
 \label{sec:twelf-hoas}
 
@@ -11,7 +11,7 @@ the grammar of $\minilang$ is actually
 \emph{first-order abstract syntax} (FOAS).
 In FOAS, each AST has the form $o(t_1, t_2, \ldots, t_n)$,
 where $o$ is an operator and $t_1, t_2, \ldots, t_n$ are each
-AST themselves.
+ASTs themselves.
 The operands of an operator correspond to subexpressions.
 For example, in ``\texttt{+($e_1$; $e_2$)}'',
 $e_1$ and $e_2$ are operands/subexpressions of the
@@ -26,7 +26,7 @@ In HOAS, ASTs declare the variables they bind.
 For example, consider the AST
 $o(t_1, t_2, \ldots, t_n)$.
 In HOAS, each $t_i$ has the form
-$x_1, x_2, \ldots x_k.t$, where $t$ is an AST,
+$x_1, x_2, \ldots, x_k.t$, where $t$ is an AST,
 each $x_j$ is a variable bound in $t$, and $k \geq 0$;
 if $k = 0$, then $t_i$ does not introduce new variables in
 the body, $t$.
@@ -55,9 +55,9 @@ of file \code{syntax.elf}:
 This line encodes the HOAS version of \code{let},
 which can be seen with the type of its
 second argument: \code{(exp -> exp)}.
-Usually, each operator such as \code{add} and \code{cat}
-only took in \code{exp} arguments, where the arguments
-represented subexpressions.
+Other operators, such as \code{add} and \code{cat},
+only take in \code{exp} arguments, where the arguments
+represent subexpressions.
 However, the second argument to \code{let} is not just an
 ordinary subexpression but a subexpression that introduces
 a new variable.
@@ -70,7 +70,7 @@ Functions in programming languages are really just terms
 with \emph{holes}.
 The holes are represented by free variables,
 and these holes are filled in when these
-(terms w/ holes)/functions are applied to other terms.
+(terms with holes)/functions are applied to other terms.
 Hence, ``$x.e_2$'' can be thought of as the function
 or \emph{lambda-abstraction} ``$\lambda x.e_2$'',
 where $e_2$ is the body of the function and $x$ is a variable

@@ -9,7 +9,9 @@ Each type is of a certain kind.
 Each term is of a certain type.
 For example, we could think of
 the type \code{Array[Int]}, which is an
-array of integers, to be of kind \code{Array}.
+array of integers, to be of kind \code{type}, the kind of
+ordinary types; the type constructor \code{Array} itself would
+then be of kind \code{type -> type}.
 A term of type \code{Array[Int]} could be
 \code{[1, 2, 3, 4]}.
 In Twelf, one defines their language by defining
@@ -24,7 +26,7 @@ using the terminology presented above.
 On line 4,
 ``\code{exp :\ type}'' states that \code{exp} is a type
 of kind \code{type}.
-Similarly, line 7 defines \code{typ} to be type
+Similarly, line 7 defines \code{typ} to be a type
 of kind \code{type},
 and line 10 defines \code{nat} to be a type
 of kind \code{type}.
@@ -40,8 +42,7 @@ The functions \code{enat} and \code{estr}
 are just ways to say that natural
 numbers and strings are also expressions.
 For example, \code{z} has type \code{nat},
-but \code{(enat z)} has type \code{exp}.
-\footnote{It would be nice if Twelf had the notion of
+but \code{(enat z)} has type \code{exp}.\footnote{It would be nice if Twelf had the notion of
 subtyping.
 Then we could just tell Twelf \code{nat} $<:$ \code{exp},
 so Twelf would infer that \code{z} should also have type
@@ -55,13 +56,12 @@ says that \code{add} is a function that takes into
 two \code{exp}'s and returns an \code{exp}.
 This corresponds to the grammar rule
 \[\mathit{Expression} \; e \; \bnfdef \; \code{+($e_1$; $e_2$)}\]
-stating that the addition of two expressions is also an expression.
-\footnote{There are a few minor things missing in the definition
+stating that the addition of two expressions is also an expression.\footnote{There are a few minor things missing in the definition
 of $\minilang$ in this paper and its encoding in Twelf.
 For example, line 32 defines an expression for representing the
 length of a string (\code{len($e$)}).
 Some details were left out for brevity.}
-Similarily, ``\code{cat :\ exp -> exp -> exp.}''
+Similarly, ``\code{cat :\ exp -> exp -> exp.}''
 says that \code{cat} is a function that takes into
 two \code{exp}'s and returns an \code{exp};
 \code{cat} corresponds to the string concatenation of two
