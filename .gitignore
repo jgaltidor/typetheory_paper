@@ -1,0 +1,17 @@
+# LaTeX build outputs (see Makefile)
+*.aux
+*.bbl
+*.blg
+*.log
+*.out
+*.dvi
+*.ps
+*.toc
+*.lof
+*.lot
+*.lop
+*.idx
+*.ilg
+*.ind
+*.synctex.gz
+type_theory.pdf
