@@ -23,10 +23,44 @@ The other files are explained throughout Section~\ref{sec:twelf}.
 \subsubsection{Theorems are Function Types. Proofs of Theorems are Function Terms.}
 Theorems in Twelf are encoded in a similar manner to
 (for all)-(there exists) queries.
-For example, below is the encoding of the progress theorem.
+For example, below is the encoding of the progress theorem
+from lines 11--12 and 153--154 of \code{progress.elf}
+(shown without an inline comment).
 
 \begin{verbatim}
-%theorem  
+progress : of E T -> not_stuck E -> type.
+%mode progress +O -NS.
+...
+%worlds () (progress O NS).
+%total O (progress O _).
+\end{verbatim}
+
+The first line declares \code{progress} as a type family:
+a relation between a derivation of the typing judgment
+\code{of E T} and a derivation of the judgment that expression
+\code{E} is not stuck (\code{not\_stuck E}).
+The \code{\%mode} declaration marks the derivation \code{O}
+of \code{of E T} as an input (\code{+}) and the derivation
+\code{NS} of \code{not\_stuck E} as an output (\code{-});
+it states that for every derivation \code{O}, there exists
+a derivation \code{NS}.
+The clauses between these declarations, each beginning with
+``\code{- :}'', are the cases of the proof.
+The \code{\%worlds} declaration states the contexts in which
+the theorem holds; the empty parentheses mean that it is only
+stated for closed terms, with no hypothetical assumptions.
+Finally, \code{\%total} asks Twelf to check that the relation
+is \emph{total}:
+that the cases cover every possible input derivation
+and that the proof terminates, by induction on \code{O}.
+If the check succeeds, Twelf has verified the proof.
+Twelf also has a more verbose syntax for stating theorems,
+the \code{\%theorem} declaration; \code{preservation.elf}
+shows the preservation theorem in that syntax in a comment.
+For progress, it would be written as follows.
+
+\begin{verbatim}
+%theorem
 progress :
   forall* {E} {T}
   forall {O:of E T} exists {NS:not_stuck E}
@@ -64,54 +98,49 @@ File \code{test\_typing.elf}, for example, provides two
 example judgments that can be derived automatically by Twelf.
 
 \begin{verbatim}
-%query * 1 D1 : of (estr (a , b , c , a , eps)) string.
-%query * 1 D2 : of (add (enat (s z)) (enat z)) num.
+%solve D1 : of (estr (a , b , c , a , eps)) string.
+%solve D2 : of (add (enat (s z)) (enat z)) num.
 \end{verbatim}
 
-The first query asks Twelf to derive that the type of
+A \code{\%solve} declaration asks Twelf to search for a term
+of the given type and, if it finds one, to define a new
+constant with that term as its value.
+The first declaration asks Twelf to derive that the type of
 \code{str[abca]} is \code{str},
 and save that derivation in \code{D1}.
-The second query asks Twelf to derive that the
+The second declaration asks Twelf to derive that the
 type of \code{+(num[1]; num[0])} is \code{num},
 and save that derivation in \code{D2}.
 
-Below is the Twelf output from those queries.
+Below is the Twelf output from those declarations.
 
 \begin{verbatim}
-loadFile test_typing.elf
 [Opening file test_typing.elf]
-%query * 1
-
-of (estr (, a (, b (, c (, a eps))))) string.
----------- Solution 1 ----------
-Empty Substitution.
-D1 = of/str (, a (, b (, c (, a eps)))).
-____________________________________________
-
-%query * 1
-
+%solve
+of (estr (a , b , c , a , eps)) string.
+ OK
+D1 : of (estr (a , b , c , a , eps)) string = of/str.
+%solve
 of (add (enat (s z)) (enat z)) num.
----------- Solution 1 ----------
-Empty Substitution.
+ OK
+D2 : of (add (enat (s z)) (enat z)) num = of/add of/nat of/nat.
+[Closing file test_typing.elf]
+\end{verbatim}
+
+Twelf finds derivations of both judgments.
+It prints them with implicit arguments omitted
+(see the footnote in Section~\ref{sec:twelf-static}).
+Written with all of their arguments, the derivations are
+\begin{verbatim}
+D1 = of/str (a , b , c , a , eps).
 D2 = of/add (enat z) (enat (s z)) (of/nat z) (of/nat (s z)).
 \end{verbatim}
-
-Twelf finds derivations of both queries.
-For the first query, it finds the derivation
-\begin{verbatim}
-D1 = of/str (, a (, b (, c (, a eps)))).
-\end{verbatim}
-It says that applying function \code{of/str}
+Derivation \code{D1} says that applying function \code{of/str}
 to the string term
-\code{(, a (, b (, c (, a eps))))} returns a
+\code{(a , b , c , a , eps)} returns a
 term/derivation of type/judgment
 ``\code{of (estr (a , b , c , a , eps)) string}''.
 
-For the second query,
-it finds the following derivation:
-\begin{verbatim}
-D2 = of/add (enat z) (enat (s z)) (of/nat z) (of/nat (s z)).
-\end{verbatim}
 Derivation \code{D2} is described as follows:
 \begin{enumerate}
 \item Apply function \code{of/nat} to term \code{z}
@@ -140,7 +169,7 @@ If those lines were removed, Twelf would return the following
 error output:
 
 \begin{verbatim}
-preservation.elf:69.8-69.11 Error: 
+preservation.elf:98.8-98.11 Error: 
 Coverage error --- missing cases:
 {E1:exp} {E2:exp} {E3:exp} {O1:of (add E1 E2) num} {S1:step E1 E3}
    {O2:of (add E3 E2) num}

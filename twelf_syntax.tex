@@ -25,7 +25,10 @@ Next, we describe the statements in file \code{syntax.elf}
 using the terminology presented above.
 On line 4,
 ``\code{exp :\ type}'' states that \code{exp} is a type
-of kind \code{type}.
+of kind \code{type}.\footnote{The \code{\%name exp E} declaration
+on the same line tells Twelf to name variables of type \code{exp}
+\code{E}, \code{E1}, \code{E2}, and so on when it prints terms.
+Several other types have similar \code{\%name} declarations.}
 Similarly, line 7 defines \code{typ} to be a type
 of kind \code{type},
 and line 10 defines \code{nat} to be a type
@@ -38,6 +41,8 @@ Lines 11 and 12 encode (Peano) natural numbers
 \code{\{z, s(z), s(s(z)), s(s(s(z))), \ldots \}}.
 Lines 15--27 define strings to be a sequence of
 the \code{char}'s separated by commas.
+The \code{\%infix} declaration on line 26 lets the comma
+be written between its two arguments, as in \code{a , b , eps}.
 The functions \code{enat} and \code{estr}
 are just ways to say that natural
 numbers and strings are also expressions.

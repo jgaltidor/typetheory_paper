@@ -114,3 +114,18 @@ with the assumption ``\mbox{$x : \tau_1$}''.
 The derivation \code{dx} of type ``\mbox{\code{of x T1}}''
 can be used in the body of the pi-abstraction to
 return a term/proof of ``\mbox{\code{of (E2 x) T2}}''.
+
+Because the premise of \code{of/let} extends the context,
+Twelf must be told which assumptions a context may contain.
+Line 25 of \code{typing.elf},
+\[ \code{\%block of-block :\ some \{T:typ\} block \{x:\ exp\}\{\_:\ of x T\}.} \]
+declares a \emph{block} of assumptions:
+a variable \code{x} of type \code{exp}
+together with an assumption that \code{x} has some type \code{T}.
+Line 26, ``\mbox{\code{\%worlds (of-block) (of \_ \_).}}'',
+then states that \code{of} judgments can be derived in contexts
+made up of such blocks.
+Lines 39--40 of \code{syntax.elf} make the same kind of declaration
+for variables of type \code{exp}.
+The slides in~\cite{twelf-tutorial} explain these and the other
+Twelf directives used in the code in more detail.
