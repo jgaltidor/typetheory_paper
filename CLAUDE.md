@@ -17,7 +17,7 @@ Spell check: `docker run --rm -v "$PWD":/w -w /w node:22-slim npx -y cspell@8 "*
 
 There are no tests. To verify a change, rebuild and check `type_theory.log` for new errors, undefined references, or undefined citations. The build currently has no LaTeX, package, or pdfTeX warnings and no overfull/underfull boxes, so any such message is new. Wide inference-rule derivations in figures use `\small` to fit the text width. Math in a section heading triggers hyperref "Token not allowed in a PDF string" warnings, so write it as `\texorpdfstring{$\minilang$}{MiniLang}`. Build outputs (`type_theory.{aux,bbl,blg,log,out,pdf}`) are gitignored.
 
-The paper is licensed CC BY 4.0 (`LICENSE`); the bundled `mathpartir.sty` (GPL), `math-cmds.sty`, and `syn-defns07.tex` are excluded, as the README's License section explains.
+The paper is licensed CC BY 4.0 (`LICENSE`). Don't add third-party files (style files, macro files) to the repo: use packages from TeX Live, and write any project macros in `my_macros.tex`.
 
 ## Document structure
 
@@ -30,7 +30,7 @@ Nested inputs:
 - `preservation.tex` → `preservation_proof.tex`
 - Figures live in `figures/` and are `\input` from the section that uses them: grammar and example expressions from `minilang_grammar.tex`; type rules, derivation, and failure from `static.tex`; eval rules from `dynamic.tex`; the HOAS Twelf figure from `twelf_syntax_hoas.tex`.
 
-Preamble files actually used: `my_macros.tex` (packages and most project macros), `math-cmds.sty`, `syn-defns07.tex`, and the bundled `mathpartir.sty`. `hyperref` is loaded in `type_theory.tex` after every other package; keep it last, since packages loaded after it break its figure and footnote link targets (duplicate `figure.n` / missing `Hfootnote.n` pdfTeX warnings). The preamble also loads `\usepackage[T1]{fontenc}` and `lmodern` (with the default OT1 encoding, `\{`/`\}` inside `\code` fall back to math-font braces and an `OMS/cmtt` font warning), and `xurl` just before `hyperref` (lets bibliography URLs break anywhere, avoiding underfull lines).
+The only preamble file is `my_macros.tex` (packages and all project macros, including the grammar symbols `\bnfdef` and `\bnfalt`); `mathpartir` comes from TeX Live. `hyperref` is loaded in `type_theory.tex` after every other package; keep it last, since packages loaded after it break its figure and footnote link targets (duplicate `figure.n` / missing `Hfootnote.n` pdfTeX warnings). The preamble also loads `\usepackage[T1]{fontenc}` and `lmodern` (with the default OT1 encoding, `\{`/`\}` inside `\code` fall back to math-font braces and an `OMS/cmtt` font warning), and `xurl` just before `hyperref` (lets bibliography URLs break anywhere, avoiding underfull lines).
 
 ## Conventions (from `my_macros.tex`)
 

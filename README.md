@@ -16,7 +16,7 @@ The full Twelf encoding of MiniLang is in a separate repository: [jgaltidor/twel
 
 ## Building
 
-You need a LaTeX distribution that provides `pdflatex` and `bibtex`, such as TeX Live or MacTeX. A full install has every package the paper uses. `mathpartir.sty` and `math-cmds.sty` are included in this repository.
+You need a LaTeX distribution that provides `pdflatex` and `bibtex`, such as TeX Live or MacTeX. A full install has every package the paper uses.
 
 ```sh
 make            # builds type_theory.pdf
@@ -66,6 +66,6 @@ Keep the asset named `typetheory_paper.pdf`: the README above and the [twelf_tut
 
 ## License
 
-The paper (its text, figures, and the LaTeX source written for it) is copyright John Altidor and licensed under the [Creative Commons Attribution 4.0 International License](https://creativecommons.org/licenses/by/4.0/) (CC BY 4.0); see [`LICENSE`](LICENSE). You may share and adapt it, including commercially, as long as you give appropriate credit.
+The paper (its text, figures, and LaTeX source) is copyright John Altidor and licensed under the [Creative Commons Attribution 4.0 International License](https://creativecommons.org/licenses/by/4.0/) (CC BY 4.0); see [`LICENSE`](LICENSE). You may share and adapt it, including commercially, as long as you give appropriate credit.
 
-Bundled third-party files keep their own terms and are not covered by that license: `mathpartir.sty` is by Didier Rémy under the GNU GPL (version 2 or later; see its header), and `math-cmds.sty` and `syn-defns07.tex` are general-purpose macro files.
+The LaTeX packages it uses, such as `mathpartir`, come from TeX Live and are not part of this repository.
