@@ -13,7 +13,11 @@ A LaTeX tutorial paper, "A Tutorial on Type Theory, Foundations of Programming L
 - `make distclean`: also removes the PDF
 - Pinned toolchain: `docker build -t typetheory-tex .` then `docker run --rm -v "$PWD":/workdir typetheory-tex` (runs `make`). The `Dockerfile` pins the same TeX Live 2026 image as the dissertation repo, by digest; `.devcontainer/` uses it too.
 
+Spell check: `docker run --rm -v "$PWD":/w -w /w node:22-slim npx -y cspell@8 "**/*.tex"` must report 0 issues; add legitimate new terms to `project-words.txt`.
+
 There are no tests. To verify a change, rebuild and check `type_theory.log` for new errors, undefined references, or undefined citations. The build currently has no LaTeX, package, or pdfTeX warnings and no overfull/underfull boxes, so any such message is new. Wide inference-rule derivations in figures use `\small` to fit the text width. Math in a section heading triggers hyperref "Token not allowed in a PDF string" warnings, so write it as `\texorpdfstring{$\minilang$}{MiniLang}`. Build outputs (`type_theory.{aux,bbl,blg,log,out,pdf}`) are gitignored.
+
+The paper is licensed CC BY 4.0 (`LICENSE`); the bundled `mathpartir.sty` (GPL), `math-cmds.sty`, and `syn-defns07.tex` are excluded, as the README's License section explains.
 
 ## Document structure
 
@@ -26,7 +30,7 @@ Nested inputs:
 - `preservation.tex` → `preservation_proof.tex`
 - Figures live in `figures/` and are `\input` from the section that uses them: grammar and example expressions from `minilang_grammar.tex`; type rules, derivation, and failure from `static.tex`; eval rules from `dynamic.tex`; the HOAS Twelf figure from `twelf_syntax_hoas.tex`.
 
-Preamble files actually used: `my_macros.tex` (packages and most project macros), `math-cmds.sty`, `syn-defns07.tex`, and the bundled `mathpartir.sty`. `hyperref` is loaded in `type_theory.tex` after every other package; keep it last, since packages loaded after it break its figure and footnote link targets (duplicate `figure.n` / missing `Hfootnote.n` pdfTeX warnings). The preamble also loads `\usepackage[T1]{fontenc}` and `lmodern` (with the default OT1 encoding, `\{`/`\}` inside `\code` fall back to math-font braces and an `OMS/cmtt` font warning), and `xurl` just before `hyperref` (lets bibliography URLs break anywhere, avoiding underfull lines). `macros-lncs.tex`, `grammar.tex`, and `obey.tex` (top level, not `figures/grammar.tex`) are leftovers and are **not** included by the root file.
+Preamble files actually used: `my_macros.tex` (packages and most project macros), `math-cmds.sty`, `syn-defns07.tex`, and the bundled `mathpartir.sty`. `hyperref` is loaded in `type_theory.tex` after every other package; keep it last, since packages loaded after it break its figure and footnote link targets (duplicate `figure.n` / missing `Hfootnote.n` pdfTeX warnings). The preamble also loads `\usepackage[T1]{fontenc}` and `lmodern` (with the default OT1 encoding, `\{`/`\}` inside `\code` fall back to math-font braces and an `OMS/cmtt` font warning), and `xurl` just before `hyperref` (lets bibliography URLs break anywhere, avoiding underfull lines).
 
 ## Conventions (from `my_macros.tex`)
 

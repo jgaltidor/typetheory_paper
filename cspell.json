@@ -1,0 +1,21 @@
+{
+  "version": "0.2",
+  "language": "en",
+  "dictionaryDefinitions": [
+    {
+      "name": "project-words",
+      "path": "./project-words.txt",
+      "addWords": true
+    }
+  ],
+  "dictionaries": ["project-words"],
+  "ignorePaths": [
+    "*.bib",
+    "*.sty",
+    "*.pdf",
+    "LICENSE",
+    "Makefile",
+    ".devcontainer/**",
+    "project-words.txt"
+  ]
+}

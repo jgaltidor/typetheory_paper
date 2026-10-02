@@ -34,6 +34,14 @@ docker run --rm -v "$PWD":/workdir typetheory-tex make clean
 
 `.devcontainer/` opens the same image in VS Code, with LaTeX Workshop set to build with `make`. It also installs Claude Code (the VS Code extension and the `claude` CLI), whose login and settings persist in a Docker volume.
 
+Spell checking uses `cspell.json` with the project word list `project-words.txt` (names, jargon, and code identifiers); add legitimate new terms there rather than ignoring warnings. Check from the command line with `npx cspell "**/*.tex"`, or in Docker:
+
+```sh
+docker run --rm -v "$PWD":/w -w /w node:22-slim npx -y cspell@8 "**/*.tex"
+```
+
+It should report 0 issues. In the devcontainer, Code Spell Checker reports spelling and LTeX+ checks grammar; LTeX+'s own spelling rule is disabled so there is a single source of spelling warnings.
+
 ## Releasing
 
 The PDF is published as a GitHub Release asset, not committed (build outputs are gitignored). To publish a new version:
@@ -55,3 +63,9 @@ Keep the asset named `typetheory_paper.pdf`: the README above and the [twelf_tut
 - `figures/` holds the grammar, typing rules, evaluation rules, and example figures.
 - `my_macros.tex` defines the project's macros and loads its packages.
 - `refs.bib` is the bibliography.
+
+## License
+
+The paper (its text, figures, and the LaTeX source written for it) is copyright John Altidor and licensed under the [Creative Commons Attribution 4.0 International License](https://creativecommons.org/licenses/by/4.0/) (CC BY 4.0); see [`LICENSE`](LICENSE). You may share and adapt it, including commercially, as long as you give appropriate credit.
+
+Bundled third-party files keep their own terms and are not covered by that license: `mathpartir.sty` is by Didier Rémy under the GNU GPL (version 2 or later; see its header), and `math-cmds.sty` and `syn-defns07.tex` are general-purpose macro files.

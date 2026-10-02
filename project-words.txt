@@ -1,0 +1,13 @@
+Altidor
+enat
+estr
+FOAS
+HOAS
+pdfauthor
+pdfkeywords
+pdfsubject
+Peano
+subexpression
+subtyping
+Twelf
+Twelf's

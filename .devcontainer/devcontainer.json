@@ -20,6 +20,8 @@
     "vscode": {
       "extensions": [
         "James-Yu.latex-workshop",
+        "streetsidesoftware.code-spell-checker",
+        "ltex-plus.vscode-ltex-plus",
         "anthropic.claude-code"
       ],
       "settings": {
@@ -39,7 +41,25 @@
             "args": []
           }
         ],
-        "latex-workshop.latex.autoBuild.run": "never"
+        "latex-workshop.latex.autoBuild.run": "never",
+        "ltex.enabled": [
+          "latex"
+        ],
+        "ltex.language": "en-US",
+        "ltex.disabledRules": {
+          "en-US": [
+            "MORFOLOGIK_RULE_EN_US"
+          ]
+        },
+        "ltex.latex.commands": {
+          "\\minilang": "dummy",
+          "\\code{}": "dummy",
+          "\\stepto": "dummy",
+          "\\stepsto": "dummy",
+          "\\cinfer[]{}{}": "ignore",
+          "\\cinfer{}{}": "ignore",
+          "\\caseitem{}": "dummy"
+        }
       }
     }
   }
