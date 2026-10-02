@@ -19,6 +19,10 @@ There are no tests. To verify a change, rebuild and check `type_theory.log` for 
 
 The paper is licensed CC BY 4.0 (`LICENSE`). Don't add third-party files (style files, macro files) to the repo: use packages from TeX Live, and write any project macros in `my_macros.tex`.
 
+Bibliography: BibTeX's log (`type_theory.blg`) must also have 0 warnings, so every entry without an `author` needs a `key` field (the plain style sorts by it). `refs.bib` holds only cited entries, and every URL was checked and working on 2026-10-02 (all `https`). The old Twelf wiki at `twelf.plparty.org` is gone; its pages now live at `https://twelf.org/wiki/<lowercase-hyphenated-title>/` (the site's sitemap lists them all). MIT Press blocks automated requests (HTTP 403), so the TAPL entry links to Pierce's own book page instead.
+
+Grammar: LTeX+ (in the devcontainer) uses the `ltex.*` settings in `.devcontainer/devcontainer.json`. Its remaining notes are known false positives or deliberate style (e.g., "an `\code{exp}`", the parallel "Rule T.n says…" sentences, "all of the").
+
 ## Document structure
 
 `type_theory.tex` is the root file. It loads the preamble and `\input`s the sections in order:

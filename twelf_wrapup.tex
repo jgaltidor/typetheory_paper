@@ -21,7 +21,7 @@ and its proof.
 The other files are explained throughout Section~\ref{sec:twelf}.
 
 \subsubsection{Theorems are Function Types. Proofs of Theorems are Function Terms.}
-Theorems in Twelf are encoded in a similar manner to
+Theorems in Twelf are encoded similarly to
 (for all)-(there exists) queries.
 For example, below is the encoding of the progress theorem
 from lines 11--12 and 153--154 of \code{progress.elf}
@@ -73,8 +73,8 @@ The next line states that for every derivation of the typing judgment,
 exists a derivation of the judgment that expression \code{E} is
 not stuck (\code{NS:not\_stuck E}).
 The following two rules define the \code{not\_stuck} judgment.\footnote{
-In Twelf, function types can be written using either
-arrows pointing to the left or pointing to the right.}
+In Twelf, function types can be written using arrows
+pointing either to the left or to the right.}
 
 \code{not\_stuck/val: not\_stuck E <- value E.} states that if
 \code{E} is a value, then \code{E} is not stuck.

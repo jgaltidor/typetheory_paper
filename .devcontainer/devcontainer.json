@@ -58,7 +58,9 @@
           "\\stepsto": "dummy",
           "\\cinfer[]{}{}": "ignore",
           "\\cinfer{}{}": "ignore",
-          "\\caseitem{}": "dummy"
+          "\\caseitem{}": "dummy",
+          "\\texorpdfstring{}{}": "dummy",
+          "\\texttt{}": "dummy"
         }
       }
     }

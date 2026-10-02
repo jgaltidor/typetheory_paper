@@ -10,7 +10,7 @@ The paper covers:
 - **Static semantics**: typing rules and derivations, and why some well-formed ASTs are ill-typed
 - **Dynamic semantics**: a transition system describing how expressions evaluate
 - **Type safety**: proofs of preservation and progress by structural induction
-- **Formal verification**: how MiniLang and its proofs are encoded in the [Twelf](http://twelf.org) proof assistant, including higher-order abstract syntax and hypothetical judgments
+- **Formal verification**: how MiniLang and its proofs are encoded in the [Twelf](https://twelf.org/) proof assistant, including higher-order abstract syntax and hypothetical judgments
 
 The full Twelf encoding of MiniLang is in a separate repository: [jgaltidor/twelf_tutorial](https://github.com/jgaltidor/twelf_tutorial). Line numbers cited in the paper refer to its [`v1.0`](https://github.com/jgaltidor/twelf_tutorial/tree/v1.0) tag.
 
