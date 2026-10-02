@@ -12,7 +12,7 @@ A LaTeX tutorial paper, "A Tutorial on Type Theory, Foundations of Programming L
 - `make clean`: removes auxiliary files (`.aux`, `.log`, `.bbl`, `.blg`, `.out`, …)
 - `make distclean`: also removes the PDF
 
-There are no tests. To verify a change, rebuild and check `type_theory.log` for new errors, undefined references, or undefined citations. Some `hyperref` "Token not allowed in a PDF string" warnings and an `OMS/cmtt` font warning already exist and are expected. Build outputs (`type_theory.{aux,bbl,blg,log,out,pdf}`) are gitignored.
+There are no tests. To verify a change, rebuild and check `type_theory.log` for new errors, undefined references, or undefined citations. Some `hyperref` "Token not allowed in a PDF string" warnings and an `OMS/cmtt` font warning already exist and are expected; any other warning (including lowercase `pdfTeX warning` lines) is new. Build outputs (`type_theory.{aux,bbl,blg,log,out,pdf}`) are gitignored.
 
 ## Document structure
 
@@ -25,7 +25,7 @@ Nested inputs:
 - `preservation.tex` → `preservation_proof.tex`
 - Figures live in `figures/` and are `\input` from the section that uses them: grammar and example expressions from `minilang_grammar.tex`; type rules, derivation, and failure from `static.tex`; eval rules from `dynamic.tex`; the HOAS Twelf figure from `twelf_syntax_hoas.tex`.
 
-Preamble files actually used: `my_macros.tex` (packages and most project macros), `math-cmds.sty`, `syn-defns07.tex`, and the bundled `mathpartir.sty`. `macros-lncs.tex`, `grammar.tex`, and `obey.tex` (top level, not `figures/grammar.tex`) are leftovers and are **not** included by the root file.
+Preamble files actually used: `my_macros.tex` (packages and most project macros), `math-cmds.sty`, `syn-defns07.tex`, and the bundled `mathpartir.sty`. `hyperref` is loaded in `type_theory.tex` after every other package; keep it last, since packages loaded after it break its figure and footnote link targets (duplicate `figure.n` / missing `Hfootnote.n` pdfTeX warnings). `macros-lncs.tex`, `grammar.tex`, and `obey.tex` (top level, not `figures/grammar.tex`) are leftovers and are **not** included by the root file.
 
 ## Conventions (from `my_macros.tex`)
 
