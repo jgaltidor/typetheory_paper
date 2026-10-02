@@ -36,7 +36,7 @@ Line 12 defines \code{s} to be a function term
 of the function type from \code{nat}'s to \code{nat}'s.
 Lines 11 and 12 encode (Peano) natural numbers
 \code{\{z, s(z), s(s(z)), s(s(s(z))), \ldots \}}.
-Lines 14--22 define strings to be a sequence of
+Lines 15--27 define strings to be a sequence of
 the \code{char}'s separated by commas.
 The functions \code{enat} and \code{estr}
 are just ways to say that natural
@@ -48,7 +48,7 @@ Then we could just tell Twelf \code{nat} $<:$ \code{exp},
 so Twelf would infer that \code{z} should also have type
 \code{exp} without having to wrap it as \code{(enat z)}.}
 
-Lines 29--32 define the category of expressions
+Lines 34--37 define the category of expressions
 with function types.
 For instance,
 ``\code{add :\ exp -> exp -> exp.}''
@@ -58,7 +58,7 @@ This corresponds to the grammar rule
 \[\mathit{Expression} \; e \; \bnfdef \; \code{+($e_1$; $e_2$)}\]
 stating that the addition of two expressions is also an expression.\footnote{There are a few minor things missing in the definition
 of $\minilang$ in this paper and its encoding in Twelf.
-For example, line 32 defines an expression for representing the
+For example, line 37 defines an expression for representing the
 length of a string (\code{len($e$)}).
 Some details were left out for brevity.}
 Similarly, ``\code{cat :\ exp -> exp -> exp.}''
@@ -66,7 +66,7 @@ says that \code{cat} is a function that takes into
 two \code{exp}'s and returns an \code{exp};
 \code{cat} corresponds to the string concatenation of two
 subexpressions.
-The last two lines of \code{syntax.elf} define two terms
+Lines 43 and 44 of \code{syntax.elf} define two terms
 \code{num} and \code{string} that represent the only two
 types in $\minilang$.
 
