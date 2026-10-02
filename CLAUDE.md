@@ -12,7 +12,7 @@ A LaTeX tutorial paper, "A Tutorial on Type Theory, Foundations of Programming L
 - `make clean`: removes auxiliary files (`.aux`, `.log`, `.bbl`, `.blg`, `.out`, …)
 - `make distclean`: also removes the PDF
 
-There are no tests. To verify a change, rebuild and check `type_theory.log` for new errors, undefined references, or undefined citations. Some `hyperref` "Token not allowed in a PDF string" warnings and an `OMS/cmtt` font warning already exist and are expected; any other warning (including lowercase `pdfTeX warning` lines) is new. Build outputs (`type_theory.{aux,bbl,blg,log,out,pdf}`) are gitignored.
+There are no tests. To verify a change, rebuild and check `type_theory.log` for new errors, undefined references, or undefined citations. The only expected warning is an `OMS/cmtt` font warning; any other warning (including lowercase `pdfTeX warning` lines) is new. Math in a section heading triggers hyperref "Token not allowed in a PDF string" warnings, so write it as `\texorpdfstring{$\minilang$}{MiniLang}`. Build outputs (`type_theory.{aux,bbl,blg,log,out,pdf}`) are gitignored.
 
 ## Document structure
 
