@@ -1,6 +1,7 @@
 \begin{figure}[htb]
+\small
 \[
-\cinfer[T.6]{$\vdash$ let(hours; num[24]; +(hours; num[3]): num}
+\cinfer[T.6]{$\vdash$ let(hours; num[24]; +(hours; num[3])): num}
   {\cinfer[T.1]{$\vdash$ num[24]: num}{ }
    &
    \cinfer[T.4]{hours : num $\vdash$ +(hours; num[3]): num}

@@ -149,9 +149,9 @@ Coverage error --- missing cases:
 
 The error message lets us know that we forgot to prove preservation
 for the case when we could derive ``\code{of (add E1 E2) num}''
-and ``\code{step (add E1 E2) (add E3 E2))}''
+and ``\code{step (add E1 E2) (add E3 E2)}''
 (\code{+($e_1$; $e_2$)} $\stepto$ \code{+($e_3$; $e_2$)}).
-In this case, judgment ``\code{step (add E1 E2) (add E3 E2))}''
+In this case, judgment ``\code{step (add E1 E2) (add E3 E2)}''
 was derived by applying function (inference rule) \code{step/add1}
 to a derivation (\code{S1}) of type ``\code{step E1 E3}''.
 To prove preservation for this case,
