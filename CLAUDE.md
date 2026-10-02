@@ -11,6 +11,7 @@ A LaTeX tutorial paper, "A Tutorial on Type Theory, Foundations of Programming L
 - `make`: runs `pdflatex` → `bibtex` → `pdflatex` ×2 on `type_theory.tex` and produces `type_theory.pdf`
 - `make clean`: removes auxiliary files (`.aux`, `.log`, `.bbl`, `.blg`, `.out`, …)
 - `make distclean`: also removes the PDF
+- Pinned toolchain: `docker build -t typetheory-tex .` then `docker run --rm -v "$PWD":/workdir typetheory-tex` (runs `make`). The `Dockerfile` pins the same TeX Live 2026 image as the dissertation repo, by digest; `.devcontainer/` uses it too.
 
 There are no tests. To verify a change, rebuild and check `type_theory.log` for new errors, undefined references, or undefined citations. The build currently has no LaTeX, package, or pdfTeX warnings and no overfull/underfull boxes, so any such message is new. Wide inference-rule derivations in figures use `\small` to fit the text width. Math in a section heading triggers hyperref "Token not allowed in a PDF string" warnings, so write it as `\texorpdfstring{$\minilang$}{MiniLang}`. Build outputs (`type_theory.{aux,bbl,blg,log,out,pdf}`) are gitignored.
 
@@ -33,3 +34,4 @@ Preamble files actually used: `my_macros.tex` (packages and most project macros)
 - `\infer` (from the `proof` package) is **redefined** so the rule label is typeset via `\code`. `\cinfer[label]{conclusion}{premises}` wraps the conclusion in `\code` and is the usual way to write inference rules in the figures. Rules are labeled `T.n` (typing) and `D.n` (dynamic semantics); proofs refer to them by these labels.
 - `\stepto`/`\stepsto` (`\mapsto`, `\mapsto^*`) are the transition relations. `\judge`, `\ftype`, `\aeq`, and `\caseitem` (for proof case analyses) are defined there too. Use these macros instead of writing the notation by hand.
 - Sections and figures use `\label{sec:...}` / `\label{fig:...}`.
+- Twelf code and output quoted in the `twelf*.tex` files must match the twelf_tutorial repo (github.com/jgaltidor/twelf_tutorial), including the line numbers cited. Regenerate quoted output with that repo's Docker image (`./check.sh`), not by hand.

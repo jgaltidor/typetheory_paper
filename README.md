@@ -2,6 +2,8 @@
 
 LaTeX source for a tutorial paper by John Altidor. It introduces type theory as it is used to specify programming languages, by working through a small example language, *MiniLang*. MiniLang has numbers, strings, addition, string concatenation, and `let`.
 
+**Download the PDF:** [typetheory_paper.pdf](https://github.com/jgaltidor/typetheory_paper/releases/latest/download/typetheory_paper.pdf) (latest release; earlier versions are on the [Releases](https://github.com/jgaltidor/typetheory_paper/releases) page).
+
 The paper covers:
 
 - **Syntax**: a grammar and abstract syntax trees for MiniLang
@@ -21,6 +23,16 @@ make            # builds type_theory.pdf
 make clean      # removes auxiliary build files
 make distclean  # also removes type_theory.pdf
 ```
+
+For a reproducible build, use the pinned toolchain in `Dockerfile` (a TeX Live 2026 snapshot, pinned by digest). The paper builds with it with no LaTeX warnings:
+
+```sh
+docker build -t typetheory-tex .
+docker run --rm -v "$PWD":/workdir typetheory-tex          # runs make
+docker run --rm -v "$PWD":/workdir typetheory-tex make clean
+```
+
+`.devcontainer/` opens the same image in VS Code, with LaTeX Workshop set to build with `make`. It also installs Claude Code (the VS Code extension and the `claude` CLI), whose login and settings persist in a Docker volume.
 
 ## Layout
 
