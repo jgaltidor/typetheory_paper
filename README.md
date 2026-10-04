@@ -14,6 +14,11 @@ The paper covers:
 
 The full Twelf encoding of MiniLang is in a separate repository: [jgaltidor/twelf_tutorial](https://github.com/jgaltidor/twelf_tutorial). Line numbers cited in the paper refer to its [`v1.0`](https://github.com/jgaltidor/twelf_tutorial/tree/v1.0) tag.
 
+Two slide decks accompany the paper, each with its LaTeX source and released PDF in its own repository:
+
+- [jgaltidor/typetheory_slides](https://github.com/jgaltidor/typetheory_slides) ([PDF](https://github.com/jgaltidor/typetheory_slides/releases/latest/download/typetheory_slides.pdf)): MiniLang, its semantics, and type safety
+- [jgaltidor/twelf_slides](https://github.com/jgaltidor/twelf_slides) ([PDF](https://github.com/jgaltidor/twelf_slides/releases/latest/download/twelf_slides.pdf)): the Twelf encoding of MiniLang, in more detail than the paper
+
 ## Building
 
 You need a LaTeX distribution that provides `pdflatex` and `bibtex`, such as TeX Live or MacTeX. A full install has every package the paper uses.
