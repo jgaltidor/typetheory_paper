@@ -51,16 +51,18 @@ GitHub Actions (`.github/workflows/build.yml`) builds the PDF in the pinned imag
 
 ## Releasing
 
-The PDF is published as a GitHub Release asset, not committed (build outputs are gitignored). To publish a new version:
+The PDF is published as a GitHub Release asset, not committed (build outputs are gitignored). Pushing a version tag publishes it: GitHub Actions builds the tag in the pinned image, runs the same checks as every push, and creates the release with the PDF attached. The tag must be annotated; its first line becomes the release title and any further lines become the release notes:
 
 ```sh
-git tag -a v1.1 -m "Type theory tutorial paper v1.1"
-git push origin v1.1
-git clone --branch v1.1 . /tmp/paper-release      # build from a clean checkout of the tag
-docker run --rm -v /tmp/paper-release:/workdir typetheory-tex
-cp /tmp/paper-release/type_theory.pdf /tmp/typetheory_paper.pdf
-gh release create v1.1 /tmp/typetheory_paper.pdf --title "Type theory tutorial paper v1.1" --notes "..."
+git tag -a v1.7 -F - <<'EOF'
+Type theory tutorial paper v1.7
+
+- What changed in this release.
+EOF
+git push origin v1.7
 ```
+
+If a check fails, no release is created. Fix the problem on `master`, then move the tag to the fixed commit and push it again (`git tag -d v1.7`, `git push origin :refs/tags/v1.7`, and tag again).
 
 Keep the asset named `typetheory_paper.pdf`: the README above and the [twelf_tutorial](https://github.com/jgaltidor/twelf_tutorial) README link to `releases/latest/download/typetheory_paper.pdf`, which always serves the newest release.
 
