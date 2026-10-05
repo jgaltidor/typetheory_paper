@@ -15,7 +15,7 @@ A LaTeX tutorial paper, "A Tutorial on Type Theory, Foundations of Programming L
 
 Spell check: `docker run --rm -v "$PWD":/w -w /w node:22-slim npx -y cspell@8 "**/*.tex"` must report 0 issues; add legitimate new terms to `project-words.txt`.
 
-CI: `.github/workflows/build.yml` runs the Docker build, then fails if `type_theory.log` has a warning or an overfull or underfull box or `type_theory.blg` has a BibTeX warning, or if cspell reports an issue. Keep the build clean, or the push turns red; if a new message is genuinely expected, change the check in the workflow and the note here together.
+CI: `.github/workflows/build.yml` runs the Docker build, then fails if `type_theory.log` has a warning or an overfull or underfull box or `type_theory.blg` has a BibTeX warning, or if cspell reports an issue. Keep the build clean, or the push turns red; if a new message is genuinely expected, change the check in the workflow and the note here together. Dependabot (`.github/dependabot.yml`) opens monthly pull requests to bump the SHA-pinned GitHub Actions.
 
 There are no tests. To verify a change, rebuild and check `type_theory.log` for new errors, undefined references, or undefined citations. The build currently has no LaTeX, package, or pdfTeX warnings and no overfull/underfull boxes, so any such message is new. Wide inference-rule derivations in figures use `\small` to fit the text width. Math in a section heading triggers hyperref "Token not allowed in a PDF string" warnings, so write it as `\texorpdfstring{$\minilang$}{MiniLang}`. Build outputs (`type_theory.{aux,bbl,blg,log,out,pdf}`) are gitignored.
 
