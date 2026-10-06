@@ -2,7 +2,7 @@
 
 LaTeX source for a tutorial paper by John Altidor. It introduces type theory as it is used to specify programming languages, by working through a small example language, *MiniLang*. MiniLang has numbers, strings, addition, string concatenation, and `let`.
 
-**Download the PDF:** [typetheory_paper.pdf](https://github.com/jgaltidor/typetheory_paper/releases/latest/download/typetheory_paper.pdf) (latest release; earlier versions are on the [Releases](https://github.com/jgaltidor/typetheory_paper/releases) page).
+**Read the PDF:** [typetheory_paper.pdf](https://jgaltidor.github.io/typetheory_paper/typetheory_paper.pdf) (latest release; [download](https://github.com/jgaltidor/typetheory_paper/releases/latest/download/typetheory_paper.pdf) it instead, or find earlier versions on the [Releases](https://github.com/jgaltidor/typetheory_paper/releases) page).
 
 The paper covers:
 
@@ -16,8 +16,8 @@ The full Twelf encoding of MiniLang is in a separate repository: [jgaltidor/twel
 
 Two slide decks accompany the paper, each with its LaTeX source and released PDF in its own repository:
 
-- [jgaltidor/typetheory_slides](https://github.com/jgaltidor/typetheory_slides) ([PDF](https://github.com/jgaltidor/typetheory_slides/releases/latest/download/typetheory_slides.pdf)): MiniLang, its semantics, and type safety
-- [jgaltidor/twelf_slides](https://github.com/jgaltidor/twelf_slides) ([PDF](https://github.com/jgaltidor/twelf_slides/releases/latest/download/twelf_slides.pdf)): the Twelf encoding of MiniLang, in more detail than the paper
+- [jgaltidor/typetheory_slides](https://github.com/jgaltidor/typetheory_slides) ([PDF](https://jgaltidor.github.io/typetheory_slides/typetheory_slides.pdf)): MiniLang, its semantics, and type safety
+- [jgaltidor/twelf_slides](https://github.com/jgaltidor/twelf_slides) ([PDF](https://jgaltidor.github.io/twelf_slides/twelf_slides.pdf)): the Twelf encoding of MiniLang, in more detail than the paper
 
 ## Building
 
@@ -51,7 +51,7 @@ GitHub Actions (`.github/workflows/build.yml`) builds the PDF in the pinned imag
 
 ## Releasing
 
-The PDF is published as a GitHub Release asset, not committed (build outputs are gitignored). Pushing a version tag publishes it: GitHub Actions builds the tag in the pinned image, runs the same checks as every push, and creates the release with the PDF attached. The tag must be annotated; its first line becomes the release title and any further lines become the release notes:
+The PDF is published as a GitHub Release asset, not committed (build outputs are gitignored). Pushing a version tag publishes it: GitHub Actions builds the tag in the pinned image, runs the same checks as every push, and creates the release with the PDF attached. It then publishes that PDF to GitHub Pages at [`https://jgaltidor.github.io/typetheory_paper/typetheory_paper.pdf`](https://jgaltidor.github.io/typetheory_paper/typetheory_paper.pdf), because GitHub serves release assets as downloads, which some browsers (such as Safari on iPhone) save without displaying; to republish it without a new release, run the workflow by hand (`gh workflow run build.yml`). The tag must be annotated; its first line becomes the release title and any further lines become the release notes:
 
 ```sh
 git tag -a v1.7 -F - <<'EOF'
@@ -64,7 +64,7 @@ git push origin v1.7
 
 If a check fails, no release is created. Fix the problem on `master`, then move the tag to the fixed commit and push it again (`git tag -d v1.7`, `git push origin :refs/tags/v1.7`, and tag again).
 
-Keep the asset named `typetheory_paper.pdf`: the README above and the [twelf_tutorial](https://github.com/jgaltidor/twelf_tutorial) README link to `releases/latest/download/typetheory_paper.pdf`, which always serves the newest release.
+Keep the asset named `typetheory_paper.pdf`: the README above, the [twelf_tutorial](https://github.com/jgaltidor/twelf_tutorial) README, and [jgaltidor.github.io](https://jgaltidor.github.io) link to the GitHub Pages copy, which the `pages` job downloads from `releases/latest/download/typetheory_paper.pdf`; both always serve the newest release.
 
 ## Layout
 

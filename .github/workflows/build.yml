@@ -72,3 +72,33 @@ jobs:
           else
             gh release create "$TAG" typetheory_paper.pdf -R "$GITHUB_REPOSITORY" --title "$title" --generate-notes
           fi
+
+  # GitHub serves release assets as downloads, which some browsers (Safari on
+  # iPhone) save instead of displaying. GitHub Pages serves the latest
+  # release's PDF inline, at https://jgaltidor.github.io/typetheory_paper/typetheory_paper.pdf;
+  # running this workflow by hand republishes it without a new release.
+  pages:
+    if: >-
+      !cancelled() && !failure() && (startsWith(github.ref, 'refs/tags/v')
+      || github.event_name == 'workflow_dispatch')
+    needs: release
+    runs-on: ubuntu-24.04
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deploy.outputs.page_url }}typetheory_paper.pdf
+    steps:
+      - name: Download the latest release's PDF
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release download -R "$GITHUB_REPOSITORY" -p typetheory_paper.pdf -D site
+          printf '<!doctype html>\n<meta charset="utf-8">\n<title>typetheory_paper.pdf</title>\n<meta http-equiv="refresh" content="0; url=typetheory_paper.pdf">\n<a href="typetheory_paper.pdf">typetheory_paper.pdf</a>\n' > site/index.html
+      - uses: actions/upload-pages-artifact@fc324d3547104276b827a68afc52ff2a11cc49c9  # v5.0.0
+        with:
+          path: site
+      - id: deploy
+        uses: actions/deploy-pages@368f82528645a54fb793d4d04e342629a3f51346  # v5.0.1
